@@ -1,0 +1,24 @@
+# Environment variables and secrets
+.env
+.env.local
+.env.*.local
+
+# Python virtual environments and dependencies
+venv/
+.venv/
+env/
+ENV/
+*.pyc
+__pycache__/
+
+# Node/Frontend dependencies and builds
+node_modules/
+dist/
+.eslintcache
+
+# Local databases and IDE settings
+db.sqlite3
+.idea/
+.vscode/
+.gemini/
+*.log

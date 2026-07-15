@@ -1,0 +1,2326 @@
+[
+{
+    "model": "users.user",
+    "fields": {
+        "password": "pbkdf2_sha256$1000000$RePetP5y2ku150IgqrWIuT$8cetQwTx+YED87pKOmJQ68EbolmOLcFDQpZD4nw3gaM=",
+        "last_login": null,
+        "is_superuser": true,
+        "username": "admin",
+        "first_name": "",
+        "last_name": "",
+        "is_staff": true,
+        "is_active": true,
+        "date_joined": "2026-06-16T05:11:59.875Z",
+        "email": "admin@learning.com",
+        "role": "ADMIN",
+        "avatar": "",
+        "bio": "",
+        "created_at": "2026-06-16T05:12:00.230Z",
+        "groups": [],
+        "user_permissions": []
+    }
+},
+{
+    "model": "users.user",
+    "fields": {
+        "password": "pbkdf2_sha256$1000000$WtggyrKCjB6nIJ1Tnu91ja$VUecKYrpHrfJKSatdgDug0UZ/1VtlJ5kTR3xb2R4E+w=",
+        "last_login": null,
+        "is_superuser": false,
+        "username": "johndoe12",
+        "first_name": "John",
+        "last_name": "Doe",
+        "is_staff": false,
+        "is_active": false,
+        "date_joined": "2026-06-16T05:48:56.603Z",
+        "email": "john@gmail.com",
+        "role": "STUDENT",
+        "avatar": "",
+        "bio": "Btech Computer Science student",
+        "created_at": "2026-06-16T05:48:56.939Z",
+        "groups": [],
+        "user_permissions": []
+    }
+},
+{
+    "model": "users.user",
+    "fields": {
+        "password": "pbkdf2_sha256$1000000$B5FM7S4MyjlKlZAZLd7lEr$eWjA+V78kk2r8MReZvGD3g/wFCKNDc+I0YxVwZagSbM=",
+        "last_login": null,
+        "is_superuser": false,
+        "username": "george",
+        "first_name": "Professor",
+        "last_name": "George",
+        "is_staff": false,
+        "is_active": true,
+        "date_joined": "2026-06-16T07:24:43.059Z",
+        "email": "mentor@gmail.com",
+        "role": "STUDENT",
+        "avatar": "",
+        "bio": "",
+        "created_at": "2026-06-16T07:24:44.800Z",
+        "groups": [],
+        "user_permissions": []
+    }
+},
+{
+    "model": "users.user",
+    "fields": {
+        "password": "pbkdf2_sha256$1000000$ojhRR93UjVGfGE3DJD2qVc$n10u+kkQYDxsU54O9J8YAwb8gXKkq23rD+BicUyeaYg=",
+        "last_login": null,
+        "is_superuser": false,
+        "username": "mentor1",
+        "first_name": "Proffesor",
+        "last_name": "Kay",
+        "is_staff": false,
+        "is_active": true,
+        "date_joined": "2026-06-16T07:26:28.652Z",
+        "email": "mentor1@gmail.com",
+        "role": "MENTOR",
+        "avatar": "",
+        "bio": "",
+        "created_at": "2026-06-16T07:26:30.134Z",
+        "groups": [],
+        "user_permissions": []
+    }
+},
+{
+    "model": "users.user",
+    "fields": {
+        "password": "pbkdf2_sha256$1000000$LdzhhzBpcKL7g6RNMTZgoZ$olf58AlKGJD0uxWCA0RjwS/7XGaGUrEyYwJp9AVYYgo=",
+        "last_login": null,
+        "is_superuser": false,
+        "username": "mentor2",
+        "first_name": "Proff",
+        "last_name": "Mary",
+        "is_staff": false,
+        "is_active": true,
+        "date_joined": "2026-06-16T09:20:20.049Z",
+        "email": "mentor2@gmail.com",
+        "role": "MENTOR",
+        "avatar": "",
+        "bio": "",
+        "created_at": "2026-06-16T09:20:20.702Z",
+        "groups": [],
+        "user_permissions": []
+    }
+},
+{
+    "model": "users.user",
+    "fields": {
+        "password": "pbkdf2_sha256$1000000$Xr3ApTqQXIbhlAV1UK85Vr$tQijbwUBiLw4ff8trghcBblDYsyMwlA6vuo68GdvRGw=",
+        "last_login": null,
+        "is_superuser": false,
+        "username": "jyo",
+        "first_name": "Jyotsna",
+        "last_name": "R",
+        "is_staff": false,
+        "is_active": true,
+        "date_joined": "2026-06-20T10:45:24.639Z",
+        "email": "jyotsnarbhat05@gmail.com",
+        "role": "STUDENT",
+        "avatar": "",
+        "bio": "",
+        "created_at": "2026-06-20T10:45:26.559Z",
+        "groups": [],
+        "user_permissions": []
+    }
+},
+{
+    "model": "users.user",
+    "fields": {
+        "password": "pbkdf2_sha256$1000000$2lq2tn64WJvgOPbPi1Dwa8$z7CKcnNKXf5hEOrP2iGroHkdJaSLHVcgQ5VDTpenlHw=",
+        "last_login": null,
+        "is_superuser": false,
+        "username": "mentor3",
+        "first_name": "Tessa",
+        "last_name": "Joy",
+        "is_staff": false,
+        "is_active": true,
+        "date_joined": "2026-06-20T14:31:33.588Z",
+        "email": "mentor3@gmail.com",
+        "role": "MENTOR",
+        "avatar": "",
+        "bio": "",
+        "created_at": "2026-06-20T14:31:35.361Z",
+        "groups": [],
+        "user_permissions": []
+    }
+},
+{
+    "model": "users.mentorprofile",
+    "pk": 1,
+    "fields": {
+        "user": [
+            "mentor1@gmail.com"
+        ],
+        "bio": "",
+        "specialization": "",
+        "hourly_rate": "0.00",
+        "qualifications": "",
+        "is_approved": true,
+        "created_at": "2026-06-16T07:26:30.184Z"
+    }
+},
+{
+    "model": "users.mentorprofile",
+    "pk": 2,
+    "fields": {
+        "user": [
+            "mentor2@gmail.com"
+        ],
+        "bio": "",
+        "specialization": "",
+        "hourly_rate": "0.00",
+        "qualifications": "",
+        "is_approved": false,
+        "created_at": "2026-06-16T09:20:20.718Z"
+    }
+},
+{
+    "model": "users.mentorprofile",
+    "pk": 3,
+    "fields": {
+        "user": [
+            "mentor3@gmail.com"
+        ],
+        "bio": "",
+        "specialization": "",
+        "hourly_rate": "0.00",
+        "qualifications": "",
+        "is_approved": false,
+        "created_at": "2026-06-20T14:31:35.445Z"
+    }
+},
+{
+    "model": "courses.tag",
+    "pk": 1,
+    "fields": {
+        "name": "python"
+    }
+},
+{
+    "model": "courses.tag",
+    "pk": 2,
+    "fields": {
+        "name": "programming"
+    }
+},
+{
+    "model": "courses.tag",
+    "pk": 3,
+    "fields": {
+        "name": "basics"
+    }
+},
+{
+    "model": "courses.tag",
+    "pk": 4,
+    "fields": {
+        "name": "backend"
+    }
+},
+{
+    "model": "courses.course",
+    "pk": 1,
+    "fields": {
+        "title": "Full Stack Web Development",
+        "description": "Django and React",
+        "mentor": [
+            "mentor1@gmail.com"
+        ],
+        "price": "50.00",
+        "language": "English",
+        "level": "BEGINNER",
+        "duration_hours": 4,
+        "thumbnail": "",
+        "is_approved": true,
+        "created_at": "2026-06-16T07:28:12.501Z",
+        "updated_at": "2026-06-16T07:36:37.752Z",
+        "tags": []
+    }
+},
+{
+    "model": "courses.course",
+    "pk": 2,
+    "fields": {
+        "title": "MERN",
+        "description": "Mongodb, Express, React, Node",
+        "mentor": [
+            "mentor1@gmail.com"
+        ],
+        "price": "100.00",
+        "language": "English",
+        "level": "INTERMEDIATE",
+        "duration_hours": 4,
+        "thumbnail": "",
+        "is_approved": true,
+        "created_at": "2026-06-16T07:29:42.958Z",
+        "updated_at": "2026-06-16T07:36:39.715Z",
+        "tags": []
+    }
+},
+{
+    "model": "courses.course",
+    "pk": 3,
+    "fields": {
+        "title": "Spoken English",
+        "description": "Designed to build your conversational fluency, vocabulary, and pronunciation. It helps you overcome hesitation and speak naturally.",
+        "mentor": [
+            "mentor2@gmail.com"
+        ],
+        "price": "200.00",
+        "language": "English",
+        "level": "BEGINNER",
+        "duration_hours": 4,
+        "thumbnail": "",
+        "is_approved": true,
+        "created_at": "2026-06-16T09:23:43.450Z",
+        "updated_at": "2026-06-16T12:57:11.331Z",
+        "tags": []
+    }
+},
+{
+    "model": "courses.course",
+    "pk": 4,
+    "fields": {
+        "title": "Python Programming for Beginners",
+        "description": "Learn the fundamentals of Python from scratch. This course covers installation, primitive data types, control flow logic, loop iteration, and modular function design with step-by-step instructions.",
+        "mentor": [
+            "mentor3@gmail.com"
+        ],
+        "price": "0.00",
+        "language": "English",
+        "level": "BEGINNER",
+        "duration_hours": 12,
+        "thumbnail": "",
+        "is_approved": true,
+        "created_at": "2026-06-20T14:33:18.775Z",
+        "updated_at": "2026-06-20T14:33:38.200Z",
+        "tags": [
+            1,
+            2,
+            3,
+            4
+        ]
+    }
+},
+{
+    "model": "courses.module",
+    "pk": 1,
+    "fields": {
+        "course": 1,
+        "title": "Module 1: Architecture & Workspace Setup",
+        "order": 1
+    }
+},
+{
+    "model": "courses.module",
+    "pk": 2,
+    "fields": {
+        "course": 1,
+        "title": "Module 2: Django REST Framework (DRF) Backend",
+        "order": 2
+    }
+},
+{
+    "model": "courses.module",
+    "pk": 3,
+    "fields": {
+        "course": 1,
+        "title": "Module 3: React Frontend Fundamentals",
+        "order": 3
+    }
+},
+{
+    "model": "courses.module",
+    "pk": 4,
+    "fields": {
+        "course": 1,
+        "title": "Module 4: API Integration & Auth Handshaking",
+        "order": 4
+    }
+},
+{
+    "model": "courses.module",
+    "pk": 5,
+    "fields": {
+        "course": 1,
+        "title": "Module 5: WebSockets & Production Deploy",
+        "order": 5
+    }
+},
+{
+    "model": "courses.module",
+    "pk": 6,
+    "fields": {
+        "course": 4,
+        "title": "Module 1: Introduction & Environment Setup",
+        "order": 1
+    }
+},
+{
+    "model": "courses.module",
+    "pk": 7,
+    "fields": {
+        "course": 4,
+        "title": "Module 2: Control Flow & Logical Conditions",
+        "order": 2
+    }
+},
+{
+    "model": "courses.module",
+    "pk": 8,
+    "fields": {
+        "course": 4,
+        "title": "Module 3: Data Structures & Reusable Code",
+        "order": 3
+    }
+},
+{
+    "model": "courses.module",
+    "pk": 9,
+    "fields": {
+        "course": 3,
+        "title": "Module 1: Introduction & Everyday Conversations",
+        "order": 1
+    }
+},
+{
+    "model": "courses.module",
+    "pk": 10,
+    "fields": {
+        "course": 3,
+        "title": "Module 2: Essential Grammar & Active Speaking",
+        "order": 2
+    }
+},
+{
+    "model": "courses.lesson",
+    "pk": 1,
+    "fields": {
+        "module": 1,
+        "title": "Lesson 1: Understanding Full-Stack Architecture",
+        "content_type": "DOCUMENT",
+        "video_url": null,
+        "pdf_file": "",
+        "document_content": "A text/markdown guide detailing Client-Server architecture, HTTP methods, REST APIs, and CORS.",
+        "duration_minutes": 15,
+        "order": 1
+    }
+},
+{
+    "model": "courses.lesson",
+    "pk": 2,
+    "fields": {
+        "module": 1,
+        "title": "Lesson 2: Installing Dependencies & Scaffold",
+        "content_type": "VIDEO",
+        "video_url": "https://www.youtube.com/watch?v=Ke90Tje7VS0",
+        "pdf_file": "",
+        "document_content": null,
+        "duration_minutes": 20,
+        "order": 2
+    }
+},
+{
+    "model": "courses.lesson",
+    "pk": 3,
+    "fields": {
+        "module": 1,
+        "title": "Lesson 3: Setup & Workspace Verification",
+        "content_type": "DOCUMENT",
+        "video_url": null,
+        "pdf_file": "",
+        "document_content": "Step-by-step commands to run django-admin startproject and npm create vite@latest.",
+        "duration_minutes": 10,
+        "order": 3
+    }
+},
+{
+    "model": "courses.lesson",
+    "pk": 4,
+    "fields": {
+        "module": 1,
+        "title": "Lesson 4: Module 1 Quiz",
+        "content_type": "DOCUMENT",
+        "video_url": null,
+        "pdf_file": "",
+        "document_content": "This lesson contains the module quiz. Click the Take Quiz button to start.",
+        "duration_minutes": 10,
+        "order": 4
+    }
+},
+{
+    "model": "courses.lesson",
+    "pk": 5,
+    "fields": {
+        "module": 2,
+        "title": "Lesson 1: Database Models & Migrations",
+        "content_type": "VIDEO",
+        "video_url": "https://www.youtube.com/watch?v=zJg1M61Xg6Q",
+        "pdf_file": "",
+        "document_content": null,
+        "duration_minutes": 25,
+        "order": 1
+    }
+},
+{
+    "model": "courses.lesson",
+    "pk": 6,
+    "fields": {
+        "module": 2,
+        "title": "Lesson 2: Serializers & CRUD ViewSets",
+        "content_type": "DOCUMENT",
+        "video_url": null,
+        "pdf_file": "",
+        "document_content": "Documentation on transforming Django queryset objects into clean JSON payloads.",
+        "duration_minutes": 14,
+        "order": 2
+    }
+},
+{
+    "model": "courses.lesson",
+    "pk": 7,
+    "fields": {
+        "module": 2,
+        "title": "Lesson 3: JWT Authentication Setup",
+        "content_type": "PDF",
+        "video_url": null,
+        "pdf_file": "lessons/pdfs/simplejwt_cheatsheet.pdf",
+        "document_content": null,
+        "duration_minutes": 10,
+        "order": 3
+    }
+},
+{
+    "model": "courses.lesson",
+    "pk": 8,
+    "fields": {
+        "module": 2,
+        "title": "Lesson 4: Module 2 Quiz",
+        "content_type": "DOCUMENT",
+        "video_url": null,
+        "pdf_file": "",
+        "document_content": "This lesson contains the module quiz. Click the Take Quiz button to start.",
+        "duration_minutes": 10,
+        "order": 4
+    }
+},
+{
+    "model": "courses.lesson",
+    "pk": 9,
+    "fields": {
+        "module": 3,
+        "title": "Lesson 1: Components, Props, and State",
+        "content_type": "VIDEO",
+        "video_url": "https://www.youtube.com/watch?v=SqcY0GlETPk",
+        "pdf_file": "",
+        "document_content": null,
+        "duration_minutes": 30,
+        "order": 1
+    }
+},
+{
+    "model": "courses.lesson",
+    "pk": 10,
+    "fields": {
+        "module": 3,
+        "title": "Lesson 2: Routing with React Router",
+        "content_type": "DOCUMENT",
+        "video_url": null,
+        "pdf_file": "",
+        "document_content": "Code configurations showing how to define <BrowserRouter>, <Routes>, and <Route> parameters",
+        "duration_minutes": 14,
+        "order": 2
+    }
+},
+{
+    "model": "courses.lesson",
+    "pk": 11,
+    "fields": {
+        "module": 3,
+        "title": "Lesson 3: Context API for Global State",
+        "content_type": "VIDEO",
+        "video_url": "https://www.youtube.com/watch?v=5LrDIWkK-To",
+        "pdf_file": "",
+        "document_content": null,
+        "duration_minutes": 20,
+        "order": 3
+    }
+},
+{
+    "model": "courses.lesson",
+    "pk": 12,
+    "fields": {
+        "module": 3,
+        "title": "Lesson 4: Module 3 Quiz",
+        "content_type": "DOCUMENT",
+        "video_url": null,
+        "pdf_file": "",
+        "document_content": "This lesson contains the module quiz. Click the Take Quiz button to start.",
+        "duration_minutes": 10,
+        "order": 4
+    }
+},
+{
+    "model": "courses.lesson",
+    "pk": 13,
+    "fields": {
+        "module": 4,
+        "title": "Lesson 1: Axios Fetching & CORS Rules",
+        "content_type": "VIDEO",
+        "video_url": "https://www.youtube.com/watch?v=00PXGoAKda4",
+        "pdf_file": "",
+        "document_content": null,
+        "duration_minutes": 25,
+        "order": 1
+    }
+},
+{
+    "model": "courses.lesson",
+    "pk": 14,
+    "fields": {
+        "module": 4,
+        "title": "Lesson 2: Token Management & Private Routes",
+        "content_type": "DOCUMENT",
+        "video_url": null,
+        "pdf_file": "",
+        "document_content": "Markdown snippet showing how to attach JWT credentials to request headers: Authorization: Bearer <token>",
+        "duration_minutes": 20,
+        "order": 2
+    }
+},
+{
+    "model": "courses.lesson",
+    "pk": 15,
+    "fields": {
+        "module": 4,
+        "title": "Lesson 3: User Login Form Submission",
+        "content_type": "VIDEO",
+        "video_url": "https://www.youtube.com/watch?v=Y-VotJtFtoU",
+        "pdf_file": "",
+        "document_content": null,
+        "duration_minutes": 15,
+        "order": 3
+    }
+},
+{
+    "model": "courses.lesson",
+    "pk": 16,
+    "fields": {
+        "module": 4,
+        "title": "Lesson 4: Module 4 Quiz",
+        "content_type": "DOCUMENT",
+        "video_url": null,
+        "pdf_file": "",
+        "document_content": "This lesson contains the module quiz. Click the Take Quiz button to start.",
+        "duration_minutes": 10,
+        "order": 4
+    }
+},
+{
+    "model": "courses.lesson",
+    "pk": 17,
+    "fields": {
+        "module": 5,
+        "title": "Lesson 1: ASGI & Channels configuration",
+        "content_type": "VIDEO",
+        "video_url": "https://www.youtube.com/watch?v=F4yH97b91UA",
+        "pdf_file": "",
+        "document_content": null,
+        "duration_minutes": 30,
+        "order": 1
+    }
+},
+{
+    "model": "courses.lesson",
+    "pk": 18,
+    "fields": {
+        "module": 5,
+        "title": "Lesson 2: WebSocket Connection in React",
+        "content_type": "DOCUMENT",
+        "video_url": null,
+        "pdf_file": "",
+        "document_content": "Guide on instantiating the browser new WebSocket('ws://...') interface inside a useEffect wrapper",
+        "duration_minutes": 15,
+        "order": 2
+    }
+},
+{
+    "model": "courses.lesson",
+    "pk": 19,
+    "fields": {
+        "module": 5,
+        "title": "Lesson 3: Deployment to Cloud Services",
+        "content_type": "VIDEO",
+        "video_url": "https://www.youtube.com/watch?v=M576uV2ySXY",
+        "pdf_file": "",
+        "document_content": null,
+        "duration_minutes": 20,
+        "order": 3
+    }
+},
+{
+    "model": "courses.lesson",
+    "pk": 20,
+    "fields": {
+        "module": 5,
+        "title": "Lesson 4: Final Certification Quiz",
+        "content_type": "DOCUMENT",
+        "video_url": null,
+        "pdf_file": "",
+        "document_content": "This lesson contains the final quiz. Click the Take Quiz button to start.",
+        "duration_minutes": 10,
+        "order": 4
+    }
+},
+{
+    "model": "courses.lesson",
+    "pk": 21,
+    "fields": {
+        "module": 6,
+        "title": "Python Installation & Hello World",
+        "content_type": "VIDEO",
+        "video_url": "https://www.youtube.com/watch?v=kqtD5eraAx8",
+        "pdf_file": "",
+        "document_content": null,
+        "duration_minutes": 15,
+        "order": 1
+    }
+},
+{
+    "model": "courses.lesson",
+    "pk": 22,
+    "fields": {
+        "module": 6,
+        "title": "Variables & Data Types",
+        "content_type": "VIDEO",
+        "video_url": "https://www.youtube.com/watch?v=rfscVS0vtbw",
+        "pdf_file": "",
+        "document_content": null,
+        "duration_minutes": 20,
+        "order": 2
+    }
+},
+{
+    "model": "courses.lesson",
+    "pk": 23,
+    "fields": {
+        "module": 7,
+        "title": "Conditional Statements (if/else)",
+        "content_type": "VIDEO",
+        "video_url": "https://www.youtube.com/watch?v=DZwmGVoM-X8",
+        "pdf_file": "",
+        "document_content": null,
+        "duration_minutes": 25,
+        "order": 1
+    }
+},
+{
+    "model": "courses.lesson",
+    "pk": 24,
+    "fields": {
+        "module": 7,
+        "title": "Loops & Repetition (for/while)",
+        "content_type": "VIDEO",
+        "video_url": "https://www.youtube.com/watch?v=6iF8Xb7Z3dw",
+        "pdf_file": "",
+        "document_content": null,
+        "duration_minutes": 30,
+        "order": 2
+    }
+},
+{
+    "model": "courses.lesson",
+    "pk": 25,
+    "fields": {
+        "module": 8,
+        "title": "Lists, Tuples, and Dictionaries",
+        "content_type": "VIDEO",
+        "video_url": "https://www.youtube.com/watch?v=N4mEzFDjqtA",
+        "pdf_file": "",
+        "document_content": null,
+        "duration_minutes": 35,
+        "order": 1
+    }
+},
+{
+    "model": "courses.lesson",
+    "pk": 26,
+    "fields": {
+        "module": 8,
+        "title": "Declaring and Calling Functions",
+        "content_type": "VIDEO",
+        "video_url": "https://www.youtube.com/watch?v=9Os0o3wzS_I",
+        "pdf_file": "",
+        "document_content": null,
+        "duration_minutes": 28,
+        "order": 2
+    }
+},
+{
+    "model": "courses.lesson",
+    "pk": 27,
+    "fields": {
+        "module": 9,
+        "title": "Lesson 1: Greeting People & Self-Introductions",
+        "content_type": "VIDEO",
+        "video_url": "https://www.youtube.com/watch?v=QgjkjsqAzvo",
+        "pdf_file": "",
+        "document_content": null,
+        "duration_minutes": 14,
+        "order": 1
+    }
+},
+{
+    "model": "courses.lesson",
+    "pk": 28,
+    "fields": {
+        "module": 9,
+        "title": "Lesson 2: Daily English Conversation Practice",
+        "content_type": "VIDEO",
+        "video_url": "https://www.youtube.com/watch?v=pKYQR9npunU",
+        "pdf_file": "",
+        "document_content": null,
+        "duration_minutes": 30,
+        "order": 2
+    }
+},
+{
+    "model": "courses.lesson",
+    "pk": 29,
+    "fields": {
+        "module": 10,
+        "title": "Lesson 3: Active Tenses & Speaking Patterns",
+        "content_type": "VIDEO",
+        "video_url": "https://www.youtube.com/watch?v=6DHvH5NS-tc",
+        "pdf_file": "",
+        "document_content": null,
+        "duration_minutes": 11,
+        "order": 1
+    }
+},
+{
+    "model": "courses.lesson",
+    "pk": 30,
+    "fields": {
+        "module": 10,
+        "title": "Lesson 4: Common Speaking Mistakes & Pronunciation",
+        "content_type": "VIDEO",
+        "video_url": "https://www.youtube.com/watch?v=Ab4WIVqPpjM",
+        "pdf_file": "",
+        "document_content": null,
+        "duration_minutes": 10,
+        "order": 2
+    }
+},
+{
+    "model": "courses.quiz",
+    "pk": 1,
+    "fields": {
+        "lesson": 4,
+        "title": "Module Quiz",
+        "passing_score": 70
+    }
+},
+{
+    "model": "courses.quiz",
+    "pk": 2,
+    "fields": {
+        "lesson": 8,
+        "title": "DRF Routing Quiz",
+        "passing_score": 70
+    }
+},
+{
+    "model": "courses.quiz",
+    "pk": 3,
+    "fields": {
+        "lesson": 12,
+        "title": "State Hook Quiz",
+        "passing_score": 80
+    }
+},
+{
+    "model": "courses.quiz",
+    "pk": 4,
+    "fields": {
+        "lesson": 16,
+        "title": "Integration Quiz",
+        "passing_score": 75
+    }
+},
+{
+    "model": "courses.quiz",
+    "pk": 5,
+    "fields": {
+        "lesson": 20,
+        "title": "Lesson Quiz",
+        "passing_score": 80
+    }
+},
+{
+    "model": "courses.question",
+    "pk": 1,
+    "fields": {
+        "quiz": 1,
+        "text": " What is the primary role of a REST API?"
+    }
+},
+{
+    "model": "courses.question",
+    "pk": 2,
+    "fields": {
+        "quiz": 1,
+        "text": "Which command starts a local Vite development server?"
+    }
+},
+{
+    "model": "courses.question",
+    "pk": 3,
+    "fields": {
+        "quiz": 2,
+        "text": " Which DRF class parses JSON request payloads into database model instances?"
+    }
+},
+{
+    "model": "courses.question",
+    "pk": 4,
+    "fields": {
+        "quiz": 3,
+        "text": " Which hook is used to perform side effects (like fetching API data) in React?"
+    }
+},
+{
+    "model": "courses.question",
+    "pk": 5,
+    "fields": {
+        "quiz": 4,
+        "text": "Where is it safest to cache short-lived JWT access tokens in client memory?"
+    }
+},
+{
+    "model": "courses.question",
+    "pk": 6,
+    "fields": {
+        "quiz": 5,
+        "text": "Which server layer handles WebSockets in a Django stack?"
+    }
+},
+{
+    "model": "courses.answer",
+    "pk": 1,
+    "fields": {
+        "question": 1,
+        "text": "Render HTML pages",
+        "is_correct": false
+    }
+},
+{
+    "model": "courses.answer",
+    "pk": 2,
+    "fields": {
+        "question": 1,
+        "text": "Act as a data bridge between frontend and database",
+        "is_correct": true
+    }
+},
+{
+    "model": "courses.answer",
+    "pk": 3,
+    "fields": {
+        "question": 1,
+        "text": "Manage CSS animations",
+        "is_correct": false
+    }
+},
+{
+    "model": "courses.answer",
+    "pk": 4,
+    "fields": {
+        "question": 2,
+        "text": " python manage.py runserver",
+        "is_correct": false
+    }
+},
+{
+    "model": "courses.answer",
+    "pk": 5,
+    "fields": {
+        "question": 2,
+        "text": "npm run dev",
+        "is_correct": true
+    }
+},
+{
+    "model": "courses.answer",
+    "pk": 6,
+    "fields": {
+        "question": 2,
+        "text": "node start",
+        "is_correct": false
+    }
+},
+{
+    "model": "courses.answer",
+    "pk": 7,
+    "fields": {
+        "question": 3,
+        "text": "Serializer",
+        "is_correct": true
+    }
+},
+{
+    "model": "courses.answer",
+    "pk": 8,
+    "fields": {
+        "question": 3,
+        "text": "VIewSet",
+        "is_correct": false
+    }
+},
+{
+    "model": "courses.answer",
+    "pk": 9,
+    "fields": {
+        "question": 3,
+        "text": "Migrator",
+        "is_correct": false
+    }
+},
+{
+    "model": "courses.answer",
+    "pk": 10,
+    "fields": {
+        "question": 4,
+        "text": "useState",
+        "is_correct": false
+    }
+},
+{
+    "model": "courses.answer",
+    "pk": 11,
+    "fields": {
+        "question": 4,
+        "text": "useEffect",
+        "is_correct": true
+    }
+},
+{
+    "model": "courses.answer",
+    "pk": 12,
+    "fields": {
+        "question": 4,
+        "text": "useContext",
+        "is_correct": false
+    }
+},
+{
+    "model": "courses.answer",
+    "pk": 13,
+    "fields": {
+        "question": 5,
+        "text": "Plain Text Cookies",
+        "is_correct": false
+    }
+},
+{
+    "model": "courses.answer",
+    "pk": 14,
+    "fields": {
+        "question": 5,
+        "text": "React Context State",
+        "is_correct": true
+    }
+},
+{
+    "model": "courses.answer",
+    "pk": 15,
+    "fields": {
+        "question": 5,
+        "text": "URL Query Parameters.",
+        "is_correct": false
+    }
+},
+{
+    "model": "courses.answer",
+    "pk": 16,
+    "fields": {
+        "question": 6,
+        "text": "WSGI (Gunicorn)",
+        "is_correct": false
+    }
+},
+{
+    "model": "courses.answer",
+    "pk": 17,
+    "fields": {
+        "question": 6,
+        "text": "ASGI (Daphne/Uvicorn",
+        "is_correct": true
+    }
+},
+{
+    "model": "courses.answer",
+    "pk": 18,
+    "fields": {
+        "question": 6,
+        "text": "Celery worker",
+        "is_correct": false
+    }
+},
+{
+    "model": "courses.enrollment",
+    "pk": 3,
+    "fields": {
+        "student": [
+            "jyotsnarbhat05@gmail.com"
+        ],
+        "course": 1,
+        "enrolled_at": "2026-06-20T12:35:47.101Z",
+        "progress_percentage": "0.00",
+        "is_completed": false,
+        "certificate_url": null
+    }
+},
+{
+    "model": "courses.enrollment",
+    "pk": 4,
+    "fields": {
+        "student": [
+            "john@gmail.com"
+        ],
+        "course": 1,
+        "enrolled_at": "2026-06-20T12:37:16.563Z",
+        "progress_percentage": "0.00",
+        "is_completed": false,
+        "certificate_url": null
+    }
+},
+{
+    "model": "courses.enrollment",
+    "pk": 5,
+    "fields": {
+        "student": [
+            "john@gmail.com"
+        ],
+        "course": 3,
+        "enrolled_at": "2026-06-20T14:23:41.578Z",
+        "progress_percentage": "0.00",
+        "is_completed": false,
+        "certificate_url": null
+    }
+},
+{
+    "model": "courses.enrollment",
+    "pk": 6,
+    "fields": {
+        "student": [
+            "jyotsnarbhat05@gmail.com"
+        ],
+        "course": 4,
+        "enrolled_at": "2026-06-20T14:43:00.996Z",
+        "progress_percentage": "100.00",
+        "is_completed": true,
+        "certificate_url": "/api/courses/4/certificate/"
+    }
+},
+{
+    "model": "courses.lessonprogress",
+    "pk": 41,
+    "fields": {
+        "student": [
+            "jyotsnarbhat05@gmail.com"
+        ],
+        "lesson": 1,
+        "is_completed": false,
+        "completed_at": "2026-06-20T12:35:47.138Z"
+    }
+},
+{
+    "model": "courses.lessonprogress",
+    "pk": 42,
+    "fields": {
+        "student": [
+            "jyotsnarbhat05@gmail.com"
+        ],
+        "lesson": 5,
+        "is_completed": false,
+        "completed_at": "2026-06-20T12:35:47.138Z"
+    }
+},
+{
+    "model": "courses.lessonprogress",
+    "pk": 43,
+    "fields": {
+        "student": [
+            "jyotsnarbhat05@gmail.com"
+        ],
+        "lesson": 9,
+        "is_completed": false,
+        "completed_at": "2026-06-20T12:35:47.138Z"
+    }
+},
+{
+    "model": "courses.lessonprogress",
+    "pk": 44,
+    "fields": {
+        "student": [
+            "jyotsnarbhat05@gmail.com"
+        ],
+        "lesson": 13,
+        "is_completed": false,
+        "completed_at": "2026-06-20T12:35:47.148Z"
+    }
+},
+{
+    "model": "courses.lessonprogress",
+    "pk": 45,
+    "fields": {
+        "student": [
+            "jyotsnarbhat05@gmail.com"
+        ],
+        "lesson": 17,
+        "is_completed": false,
+        "completed_at": "2026-06-20T12:35:47.148Z"
+    }
+},
+{
+    "model": "courses.lessonprogress",
+    "pk": 46,
+    "fields": {
+        "student": [
+            "jyotsnarbhat05@gmail.com"
+        ],
+        "lesson": 2,
+        "is_completed": false,
+        "completed_at": "2026-06-20T12:35:47.148Z"
+    }
+},
+{
+    "model": "courses.lessonprogress",
+    "pk": 47,
+    "fields": {
+        "student": [
+            "jyotsnarbhat05@gmail.com"
+        ],
+        "lesson": 6,
+        "is_completed": false,
+        "completed_at": "2026-06-20T12:35:47.148Z"
+    }
+},
+{
+    "model": "courses.lessonprogress",
+    "pk": 48,
+    "fields": {
+        "student": [
+            "jyotsnarbhat05@gmail.com"
+        ],
+        "lesson": 10,
+        "is_completed": false,
+        "completed_at": "2026-06-20T12:35:47.162Z"
+    }
+},
+{
+    "model": "courses.lessonprogress",
+    "pk": 49,
+    "fields": {
+        "student": [
+            "jyotsnarbhat05@gmail.com"
+        ],
+        "lesson": 14,
+        "is_completed": false,
+        "completed_at": "2026-06-20T12:35:47.162Z"
+    }
+},
+{
+    "model": "courses.lessonprogress",
+    "pk": 50,
+    "fields": {
+        "student": [
+            "jyotsnarbhat05@gmail.com"
+        ],
+        "lesson": 18,
+        "is_completed": false,
+        "completed_at": "2026-06-20T12:35:47.162Z"
+    }
+},
+{
+    "model": "courses.lessonprogress",
+    "pk": 51,
+    "fields": {
+        "student": [
+            "jyotsnarbhat05@gmail.com"
+        ],
+        "lesson": 3,
+        "is_completed": false,
+        "completed_at": "2026-06-20T12:35:47.162Z"
+    }
+},
+{
+    "model": "courses.lessonprogress",
+    "pk": 52,
+    "fields": {
+        "student": [
+            "jyotsnarbhat05@gmail.com"
+        ],
+        "lesson": 7,
+        "is_completed": false,
+        "completed_at": "2026-06-20T12:35:47.162Z"
+    }
+},
+{
+    "model": "courses.lessonprogress",
+    "pk": 53,
+    "fields": {
+        "student": [
+            "jyotsnarbhat05@gmail.com"
+        ],
+        "lesson": 11,
+        "is_completed": false,
+        "completed_at": "2026-06-20T12:35:47.179Z"
+    }
+},
+{
+    "model": "courses.lessonprogress",
+    "pk": 54,
+    "fields": {
+        "student": [
+            "jyotsnarbhat05@gmail.com"
+        ],
+        "lesson": 15,
+        "is_completed": false,
+        "completed_at": "2026-06-20T12:35:47.179Z"
+    }
+},
+{
+    "model": "courses.lessonprogress",
+    "pk": 55,
+    "fields": {
+        "student": [
+            "jyotsnarbhat05@gmail.com"
+        ],
+        "lesson": 19,
+        "is_completed": false,
+        "completed_at": "2026-06-20T12:35:47.188Z"
+    }
+},
+{
+    "model": "courses.lessonprogress",
+    "pk": 56,
+    "fields": {
+        "student": [
+            "jyotsnarbhat05@gmail.com"
+        ],
+        "lesson": 4,
+        "is_completed": false,
+        "completed_at": "2026-06-20T12:35:47.197Z"
+    }
+},
+{
+    "model": "courses.lessonprogress",
+    "pk": 57,
+    "fields": {
+        "student": [
+            "jyotsnarbhat05@gmail.com"
+        ],
+        "lesson": 8,
+        "is_completed": false,
+        "completed_at": "2026-06-20T12:35:47.197Z"
+    }
+},
+{
+    "model": "courses.lessonprogress",
+    "pk": 58,
+    "fields": {
+        "student": [
+            "jyotsnarbhat05@gmail.com"
+        ],
+        "lesson": 12,
+        "is_completed": false,
+        "completed_at": "2026-06-20T12:35:47.210Z"
+    }
+},
+{
+    "model": "courses.lessonprogress",
+    "pk": 59,
+    "fields": {
+        "student": [
+            "jyotsnarbhat05@gmail.com"
+        ],
+        "lesson": 16,
+        "is_completed": false,
+        "completed_at": "2026-06-20T12:35:47.210Z"
+    }
+},
+{
+    "model": "courses.lessonprogress",
+    "pk": 60,
+    "fields": {
+        "student": [
+            "jyotsnarbhat05@gmail.com"
+        ],
+        "lesson": 20,
+        "is_completed": false,
+        "completed_at": "2026-06-20T12:35:47.210Z"
+    }
+},
+{
+    "model": "courses.lessonprogress",
+    "pk": 61,
+    "fields": {
+        "student": [
+            "john@gmail.com"
+        ],
+        "lesson": 1,
+        "is_completed": false,
+        "completed_at": "2026-06-20T12:37:16.574Z"
+    }
+},
+{
+    "model": "courses.lessonprogress",
+    "pk": 62,
+    "fields": {
+        "student": [
+            "john@gmail.com"
+        ],
+        "lesson": 5,
+        "is_completed": false,
+        "completed_at": "2026-06-20T12:37:16.574Z"
+    }
+},
+{
+    "model": "courses.lessonprogress",
+    "pk": 63,
+    "fields": {
+        "student": [
+            "john@gmail.com"
+        ],
+        "lesson": 9,
+        "is_completed": false,
+        "completed_at": "2026-06-20T12:37:16.582Z"
+    }
+},
+{
+    "model": "courses.lessonprogress",
+    "pk": 64,
+    "fields": {
+        "student": [
+            "john@gmail.com"
+        ],
+        "lesson": 13,
+        "is_completed": false,
+        "completed_at": "2026-06-20T12:37:16.582Z"
+    }
+},
+{
+    "model": "courses.lessonprogress",
+    "pk": 65,
+    "fields": {
+        "student": [
+            "john@gmail.com"
+        ],
+        "lesson": 17,
+        "is_completed": false,
+        "completed_at": "2026-06-20T12:37:16.591Z"
+    }
+},
+{
+    "model": "courses.lessonprogress",
+    "pk": 66,
+    "fields": {
+        "student": [
+            "john@gmail.com"
+        ],
+        "lesson": 2,
+        "is_completed": false,
+        "completed_at": "2026-06-20T12:37:16.591Z"
+    }
+},
+{
+    "model": "courses.lessonprogress",
+    "pk": 67,
+    "fields": {
+        "student": [
+            "john@gmail.com"
+        ],
+        "lesson": 6,
+        "is_completed": false,
+        "completed_at": "2026-06-20T12:37:16.591Z"
+    }
+},
+{
+    "model": "courses.lessonprogress",
+    "pk": 68,
+    "fields": {
+        "student": [
+            "john@gmail.com"
+        ],
+        "lesson": 10,
+        "is_completed": false,
+        "completed_at": "2026-06-20T12:37:16.591Z"
+    }
+},
+{
+    "model": "courses.lessonprogress",
+    "pk": 69,
+    "fields": {
+        "student": [
+            "john@gmail.com"
+        ],
+        "lesson": 14,
+        "is_completed": false,
+        "completed_at": "2026-06-20T12:37:16.599Z"
+    }
+},
+{
+    "model": "courses.lessonprogress",
+    "pk": 70,
+    "fields": {
+        "student": [
+            "john@gmail.com"
+        ],
+        "lesson": 18,
+        "is_completed": false,
+        "completed_at": "2026-06-20T12:37:16.599Z"
+    }
+},
+{
+    "model": "courses.lessonprogress",
+    "pk": 71,
+    "fields": {
+        "student": [
+            "john@gmail.com"
+        ],
+        "lesson": 3,
+        "is_completed": false,
+        "completed_at": "2026-06-20T12:37:16.599Z"
+    }
+},
+{
+    "model": "courses.lessonprogress",
+    "pk": 72,
+    "fields": {
+        "student": [
+            "john@gmail.com"
+        ],
+        "lesson": 7,
+        "is_completed": false,
+        "completed_at": "2026-06-20T12:37:16.607Z"
+    }
+},
+{
+    "model": "courses.lessonprogress",
+    "pk": 73,
+    "fields": {
+        "student": [
+            "john@gmail.com"
+        ],
+        "lesson": 11,
+        "is_completed": false,
+        "completed_at": "2026-06-20T12:37:16.607Z"
+    }
+},
+{
+    "model": "courses.lessonprogress",
+    "pk": 74,
+    "fields": {
+        "student": [
+            "john@gmail.com"
+        ],
+        "lesson": 15,
+        "is_completed": false,
+        "completed_at": "2026-06-20T12:37:16.607Z"
+    }
+},
+{
+    "model": "courses.lessonprogress",
+    "pk": 75,
+    "fields": {
+        "student": [
+            "john@gmail.com"
+        ],
+        "lesson": 19,
+        "is_completed": false,
+        "completed_at": "2026-06-20T12:37:16.615Z"
+    }
+},
+{
+    "model": "courses.lessonprogress",
+    "pk": 76,
+    "fields": {
+        "student": [
+            "john@gmail.com"
+        ],
+        "lesson": 4,
+        "is_completed": false,
+        "completed_at": "2026-06-20T12:37:16.615Z"
+    }
+},
+{
+    "model": "courses.lessonprogress",
+    "pk": 77,
+    "fields": {
+        "student": [
+            "john@gmail.com"
+        ],
+        "lesson": 8,
+        "is_completed": false,
+        "completed_at": "2026-06-20T12:37:16.615Z"
+    }
+},
+{
+    "model": "courses.lessonprogress",
+    "pk": 78,
+    "fields": {
+        "student": [
+            "john@gmail.com"
+        ],
+        "lesson": 12,
+        "is_completed": false,
+        "completed_at": "2026-06-20T12:37:16.615Z"
+    }
+},
+{
+    "model": "courses.lessonprogress",
+    "pk": 79,
+    "fields": {
+        "student": [
+            "john@gmail.com"
+        ],
+        "lesson": 16,
+        "is_completed": false,
+        "completed_at": "2026-06-20T12:37:16.615Z"
+    }
+},
+{
+    "model": "courses.lessonprogress",
+    "pk": 80,
+    "fields": {
+        "student": [
+            "john@gmail.com"
+        ],
+        "lesson": 20,
+        "is_completed": false,
+        "completed_at": "2026-06-20T12:37:16.615Z"
+    }
+},
+{
+    "model": "courses.lessonprogress",
+    "pk": 81,
+    "fields": {
+        "student": [
+            "jyotsnarbhat05@gmail.com"
+        ],
+        "lesson": 21,
+        "is_completed": true,
+        "completed_at": "2026-07-05T11:53:31.879Z"
+    }
+},
+{
+    "model": "courses.lessonprogress",
+    "pk": 82,
+    "fields": {
+        "student": [
+            "jyotsnarbhat05@gmail.com"
+        ],
+        "lesson": 23,
+        "is_completed": true,
+        "completed_at": "2026-07-05T11:53:44.998Z"
+    }
+},
+{
+    "model": "courses.lessonprogress",
+    "pk": 83,
+    "fields": {
+        "student": [
+            "jyotsnarbhat05@gmail.com"
+        ],
+        "lesson": 25,
+        "is_completed": true,
+        "completed_at": "2026-07-05T11:53:52.280Z"
+    }
+},
+{
+    "model": "courses.lessonprogress",
+    "pk": 84,
+    "fields": {
+        "student": [
+            "jyotsnarbhat05@gmail.com"
+        ],
+        "lesson": 22,
+        "is_completed": true,
+        "completed_at": "2026-07-05T11:53:41.212Z"
+    }
+},
+{
+    "model": "courses.lessonprogress",
+    "pk": 85,
+    "fields": {
+        "student": [
+            "jyotsnarbhat05@gmail.com"
+        ],
+        "lesson": 24,
+        "is_completed": true,
+        "completed_at": "2026-07-05T11:53:48.704Z"
+    }
+},
+{
+    "model": "courses.lessonprogress",
+    "pk": 86,
+    "fields": {
+        "student": [
+            "jyotsnarbhat05@gmail.com"
+        ],
+        "lesson": 26,
+        "is_completed": true,
+        "completed_at": "2026-07-05T11:53:57.104Z"
+    }
+},
+{
+    "model": "courses.lessonprogress",
+    "pk": 87,
+    "fields": {
+        "student": [
+            "john@gmail.com"
+        ],
+        "lesson": 27,
+        "is_completed": false,
+        "completed_at": "2026-06-28T13:06:46.302Z"
+    }
+},
+{
+    "model": "courses.lessonprogress",
+    "pk": 88,
+    "fields": {
+        "student": [
+            "john@gmail.com"
+        ],
+        "lesson": 28,
+        "is_completed": false,
+        "completed_at": "2026-06-28T13:07:46.656Z"
+    }
+},
+{
+    "model": "courses.lessonprogress",
+    "pk": 89,
+    "fields": {
+        "student": [
+            "john@gmail.com"
+        ],
+        "lesson": 29,
+        "is_completed": false,
+        "completed_at": "2026-06-28T13:09:03.099Z"
+    }
+},
+{
+    "model": "courses.lessonprogress",
+    "pk": 90,
+    "fields": {
+        "student": [
+            "john@gmail.com"
+        ],
+        "lesson": 30,
+        "is_completed": false,
+        "completed_at": "2026-06-28T13:10:17.377Z"
+    }
+},
+{
+    "model": "courses.coursereview",
+    "pk": 1,
+    "fields": {
+        "student": [
+            "john@gmail.com"
+        ],
+        "course": 1,
+        "rating": 4,
+        "comment": "very informative and engaging..Good reference material",
+        "is_moderated": false,
+        "created_at": "2026-06-16T12:46:11.217Z"
+    }
+},
+{
+    "model": "courses.coursereview",
+    "pk": 2,
+    "fields": {
+        "student": [
+            "jyotsnarbhat05@gmail.com"
+        ],
+        "course": 4,
+        "rating": 4,
+        "comment": "Imformative",
+        "is_moderated": false,
+        "created_at": "2026-06-20T14:44:21.397Z"
+    }
+},
+{
+    "model": "chat.qamessage",
+    "pk": 1,
+    "fields": {
+        "course": 1,
+        "sender": [
+            "john@gmail.com"
+        ],
+        "content": "hi",
+        "parent_message": null,
+        "is_moderated": false,
+        "created_at": "2026-06-16T09:14:29.271Z"
+    }
+},
+{
+    "model": "chat.qamessage",
+    "pk": 2,
+    "fields": {
+        "course": 1,
+        "sender": [
+            "john@gmail.com"
+        ],
+        "content": "hello",
+        "parent_message": null,
+        "is_moderated": true,
+        "created_at": "2026-06-16T12:58:52.673Z"
+    }
+},
+{
+    "model": "chat.qamessage",
+    "pk": 3,
+    "fields": {
+        "course": 1,
+        "sender": [
+            "mentor1@gmail.com"
+        ],
+        "content": "Welcome to the Course!!",
+        "parent_message": 1,
+        "is_moderated": false,
+        "created_at": "2026-06-18T06:38:23.872Z"
+    }
+},
+{
+    "model": "chat.qamessage",
+    "pk": 4,
+    "fields": {
+        "course": 1,
+        "sender": [
+            "john@gmail.com"
+        ],
+        "content": "Thank u sir",
+        "parent_message": null,
+        "is_moderated": false,
+        "created_at": "2026-06-18T12:24:12.545Z"
+    }
+},
+{
+    "model": "chat.qamessage",
+    "pk": 5,
+    "fields": {
+        "course": 1,
+        "sender": [
+            "mentor1@gmail.com"
+        ],
+        "content": "Welcome Jyotsna to the course!!",
+        "parent_message": null,
+        "is_moderated": false,
+        "created_at": "2026-06-20T12:36:49.091Z"
+    }
+},
+{
+    "model": "chat.qamessage",
+    "pk": 6,
+    "fields": {
+        "course": 1,
+        "sender": [
+            "jyotsnarbhat05@gmail.com"
+        ],
+        "content": "Thank u sir!",
+        "parent_message": null,
+        "is_moderated": false,
+        "created_at": "2026-06-20T12:37:59.694Z"
+    }
+},
+{
+    "model": "chat.qamessage",
+    "pk": 7,
+    "fields": {
+        "course": 4,
+        "sender": [
+            "jyotsnarbhat05@gmail.com"
+        ],
+        "content": "Hello, this is a test message in the Q&A room.",
+        "parent_message": null,
+        "is_moderated": false,
+        "created_at": "2026-06-28T12:53:48.901Z"
+    }
+},
+{
+    "model": "chat.qamessage",
+    "pk": 8,
+    "fields": {
+        "course": 4,
+        "sender": [
+            "jyotsnarbhat05@gmail.com"
+        ],
+        "content": "Yes, chat works perfectly!",
+        "parent_message": null,
+        "is_moderated": false,
+        "created_at": "2026-06-28T12:56:02.195Z"
+    }
+},
+{
+    "model": "chat.qamessage",
+    "pk": 9,
+    "fields": {
+        "course": 3,
+        "sender": [
+            "john@gmail.com"
+        ],
+        "content": "hey",
+        "parent_message": null,
+        "is_moderated": false,
+        "created_at": "2026-07-05T11:43:39.504Z"
+    }
+},
+{
+    "model": "payments.payment",
+    "pk": 1,
+    "fields": {
+        "student": [
+            "john@gmail.com"
+        ],
+        "course": 1,
+        "gateway": "STRIPE",
+        "transaction_id": "stripe_sess_2_1_1781596906",
+        "amount": "50.00",
+        "status": "REFUNDED",
+        "created_at": "2026-06-16T08:01:46.410Z",
+        "updated_at": "2026-06-16T12:57:47.641Z"
+    }
+},
+{
+    "model": "payments.payment",
+    "pk": 2,
+    "fields": {
+        "student": [
+            "john@gmail.com"
+        ],
+        "course": 1,
+        "gateway": "STRIPE",
+        "transaction_id": "stripe_sess_2_1_1781614714",
+        "amount": "50.00",
+        "status": "DISPUTED",
+        "created_at": "2026-06-16T12:58:34.712Z",
+        "updated_at": "2026-06-20T12:24:18.055Z"
+    }
+},
+{
+    "model": "payments.payment",
+    "pk": 3,
+    "fields": {
+        "student": [
+            "jyotsnarbhat05@gmail.com"
+        ],
+        "course": 1,
+        "gateway": "STRIPE",
+        "transaction_id": "stripe_sess_6_1_1781958939",
+        "amount": "50.00",
+        "status": "COMPLETED",
+        "created_at": "2026-06-20T12:35:39.852Z",
+        "updated_at": "2026-06-20T12:35:47.091Z"
+    }
+},
+{
+    "model": "payments.payment",
+    "pk": 4,
+    "fields": {
+        "student": [
+            "john@gmail.com"
+        ],
+        "course": 1,
+        "gateway": "STRIPE",
+        "transaction_id": "stripe_sess_2_1_1781959034",
+        "amount": "50.00",
+        "status": "COMPLETED",
+        "created_at": "2026-06-20T12:37:14.741Z",
+        "updated_at": "2026-06-20T12:37:16.560Z"
+    }
+},
+{
+    "model": "payments.payment",
+    "pk": 5,
+    "fields": {
+        "student": [
+            "john@gmail.com"
+        ],
+        "course": 3,
+        "gateway": "STRIPE",
+        "transaction_id": "stripe_sess_2_3_1781965414",
+        "amount": "200.00",
+        "status": "COMPLETED",
+        "created_at": "2026-06-20T14:23:34.554Z",
+        "updated_at": "2026-06-20T14:23:41.569Z"
+    }
+},
+{
+    "model": "notifications.notification",
+    "pk": 1,
+    "fields": {
+        "recipient": [
+            "mentor1@gmail.com"
+        ],
+        "title": "Course Approved",
+        "message": "Your course 'Full Stack Web Development' has been approved by the Administrator and is now live.",
+        "notification_type": "ANNOUNCEMENT",
+        "read_status": false,
+        "created_at": "2026-06-16T07:36:37.807Z"
+    }
+},
+{
+    "model": "notifications.notification",
+    "pk": 2,
+    "fields": {
+        "recipient": [
+            "mentor1@gmail.com"
+        ],
+        "title": "Course Approved",
+        "message": "Your course 'MERN' has been approved by the Administrator and is now live.",
+        "notification_type": "ANNOUNCEMENT",
+        "read_status": false,
+        "created_at": "2026-06-16T07:36:39.779Z"
+    }
+},
+{
+    "model": "notifications.notification",
+    "pk": 3,
+    "fields": {
+        "recipient": [
+            "john@gmail.com"
+        ],
+        "title": "Payment Completed",
+        "message": "Your payment of $50.00 for course 'Full Stack Web Development' was processed successfully. You are now enrolled!",
+        "notification_type": "ENROLLMENT",
+        "read_status": false,
+        "created_at": "2026-06-16T08:01:54.949Z"
+    }
+},
+{
+    "model": "notifications.notification",
+    "pk": 4,
+    "fields": {
+        "recipient": [
+            "mentor1@gmail.com"
+        ],
+        "title": "Course Purchased",
+        "message": "Student john@gmail.com purchased your course 'Full Stack Web Development' for $50.00.",
+        "notification_type": "ENROLLMENT",
+        "read_status": false,
+        "created_at": "2026-06-16T08:01:54.952Z"
+    }
+},
+{
+    "model": "notifications.notification",
+    "pk": 5,
+    "fields": {
+        "recipient": [
+            "mentor1@gmail.com"
+        ],
+        "title": "New Course Review",
+        "message": "A student left a 4-star review on your course Full Stack Web Development.",
+        "notification_type": "ANNOUNCEMENT",
+        "read_status": false,
+        "created_at": "2026-06-16T12:46:11.269Z"
+    }
+},
+{
+    "model": "notifications.notification",
+    "pk": 6,
+    "fields": {
+        "recipient": [
+            "mentor2@gmail.com"
+        ],
+        "title": "Course Approved",
+        "message": "Your course 'Spoken English' has been approved by the Administrator and is now live.",
+        "notification_type": "ANNOUNCEMENT",
+        "read_status": false,
+        "created_at": "2026-06-16T12:57:11.387Z"
+    }
+},
+{
+    "model": "notifications.notification",
+    "pk": 7,
+    "fields": {
+        "recipient": [
+            "john@gmail.com"
+        ],
+        "title": "Refund Processed",
+        "message": "Your refund request for 'Full Stack Web Development' has been processed. Access to the course curriculum has been removed.",
+        "notification_type": "REFUND",
+        "read_status": false,
+        "created_at": "2026-06-16T12:57:47.681Z"
+    }
+},
+{
+    "model": "notifications.notification",
+    "pk": 8,
+    "fields": {
+        "recipient": [
+            "mentor1@gmail.com"
+        ],
+        "title": "Enrollment Revoked (Refund)",
+        "message": "A refund has been processed for student john@gmail.com on course 'Full Stack Web Development'. Access was revoked.",
+        "notification_type": "REFUND",
+        "read_status": false,
+        "created_at": "2026-06-16T12:57:47.695Z"
+    }
+},
+{
+    "model": "notifications.notification",
+    "pk": 9,
+    "fields": {
+        "recipient": [
+            "john@gmail.com"
+        ],
+        "title": "Payment Completed",
+        "message": "Your payment of $50.00 for course 'Full Stack Web Development' was processed successfully. You are now enrolled!",
+        "notification_type": "ENROLLMENT",
+        "read_status": false,
+        "created_at": "2026-06-16T12:58:38.235Z"
+    }
+},
+{
+    "model": "notifications.notification",
+    "pk": 10,
+    "fields": {
+        "recipient": [
+            "mentor1@gmail.com"
+        ],
+        "title": "Course Purchased",
+        "message": "Student john@gmail.com purchased your course 'Full Stack Web Development' for $50.00.",
+        "notification_type": "ENROLLMENT",
+        "read_status": false,
+        "created_at": "2026-06-16T12:58:38.235Z"
+    }
+},
+{
+    "model": "notifications.notification",
+    "pk": 11,
+    "fields": {
+        "recipient": [
+            "john@gmail.com"
+        ],
+        "title": "Access Suspended (Dispute)",
+        "message": "Your access to course 'Full Stack Web Development' has been suspended due to an active payment dispute.",
+        "notification_type": "ANNOUNCEMENT",
+        "read_status": false,
+        "created_at": "2026-06-20T12:24:18.072Z"
+    }
+},
+{
+    "model": "notifications.notification",
+    "pk": 12,
+    "fields": {
+        "recipient": [
+            "mentor1@gmail.com"
+        ],
+        "title": "Enrollment Revoked (Dispute)",
+        "message": "Access for student john@gmail.com on course 'Full Stack Web Development' was revoked due to a payment dispute.",
+        "notification_type": "ANNOUNCEMENT",
+        "read_status": false,
+        "created_at": "2026-06-20T12:24:18.072Z"
+    }
+},
+{
+    "model": "notifications.notification",
+    "pk": 13,
+    "fields": {
+        "recipient": [
+            "jyotsnarbhat05@gmail.com"
+        ],
+        "title": "Payment Completed",
+        "message": "Your payment of $50.00 for course 'Full Stack Web Development' was processed successfully. You are now enrolled!",
+        "notification_type": "ENROLLMENT",
+        "read_status": false,
+        "created_at": "2026-06-20T12:35:47.210Z"
+    }
+},
+{
+    "model": "notifications.notification",
+    "pk": 14,
+    "fields": {
+        "recipient": [
+            "mentor1@gmail.com"
+        ],
+        "title": "Course Purchased",
+        "message": "Student jyotsnarbhat05@gmail.com purchased your course 'Full Stack Web Development' for $50.00.",
+        "notification_type": "ENROLLMENT",
+        "read_status": false,
+        "created_at": "2026-06-20T12:35:47.227Z"
+    }
+},
+{
+    "model": "notifications.notification",
+    "pk": 15,
+    "fields": {
+        "recipient": [
+            "john@gmail.com"
+        ],
+        "title": "Payment Completed",
+        "message": "Your payment of $50.00 for course 'Full Stack Web Development' was processed successfully. You are now enrolled!",
+        "notification_type": "ENROLLMENT",
+        "read_status": false,
+        "created_at": "2026-06-20T12:37:16.615Z"
+    }
+},
+{
+    "model": "notifications.notification",
+    "pk": 16,
+    "fields": {
+        "recipient": [
+            "mentor1@gmail.com"
+        ],
+        "title": "Course Purchased",
+        "message": "Student john@gmail.com purchased your course 'Full Stack Web Development' for $50.00.",
+        "notification_type": "ENROLLMENT",
+        "read_status": false,
+        "created_at": "2026-06-20T12:37:16.632Z"
+    }
+},
+{
+    "model": "notifications.notification",
+    "pk": 17,
+    "fields": {
+        "recipient": [
+            "john@gmail.com"
+        ],
+        "title": "Payment Completed",
+        "message": "Your payment of $200.00 for course 'Spoken English' was processed successfully. You are now enrolled!",
+        "notification_type": "ENROLLMENT",
+        "read_status": false,
+        "created_at": "2026-06-20T14:23:41.588Z"
+    }
+},
+{
+    "model": "notifications.notification",
+    "pk": 18,
+    "fields": {
+        "recipient": [
+            "mentor2@gmail.com"
+        ],
+        "title": "Course Purchased",
+        "message": "Student john@gmail.com purchased your course 'Spoken English' for $200.00.",
+        "notification_type": "ENROLLMENT",
+        "read_status": false,
+        "created_at": "2026-06-20T14:23:41.652Z"
+    }
+},
+{
+    "model": "notifications.notification",
+    "pk": 19,
+    "fields": {
+        "recipient": [
+            "mentor3@gmail.com"
+        ],
+        "title": "Course Approved",
+        "message": "Your course 'Python Programming for Beginners' has been approved by the Administrator and is now live.",
+        "notification_type": "ANNOUNCEMENT",
+        "read_status": true,
+        "created_at": "2026-06-20T14:33:38.216Z"
+    }
+},
+{
+    "model": "notifications.notification",
+    "pk": 20,
+    "fields": {
+        "recipient": [
+            "jyotsnarbhat05@gmail.com"
+        ],
+        "title": "Enrolled Successfully",
+        "message": "You have enrolled in the course: Python Programming for Beginners.",
+        "notification_type": "ENROLLMENT",
+        "read_status": false,
+        "created_at": "2026-06-20T14:43:01.201Z"
+    }
+},
+{
+    "model": "notifications.notification",
+    "pk": 21,
+    "fields": {
+        "recipient": [
+            "mentor3@gmail.com"
+        ],
+        "title": "New Enrollment",
+        "message": "A new student (jyotsnarbhat05@gmail.com) has enrolled in your course: Python Programming for Beginners.",
+        "notification_type": "ENROLLMENT",
+        "read_status": false,
+        "created_at": "2026-06-20T14:43:01.215Z"
+    }
+},
+{
+    "model": "notifications.notification",
+    "pk": 22,
+    "fields": {
+        "recipient": [
+            "mentor3@gmail.com"
+        ],
+        "title": "New Course Review",
+        "message": "A student left a 4-star review on your course Python Programming for Beginners.",
+        "notification_type": "ANNOUNCEMENT",
+        "read_status": false,
+        "created_at": "2026-06-20T14:44:21.448Z"
+    }
+},
+{
+    "model": "notifications.notification",
+    "pk": 23,
+    "fields": {
+        "recipient": [
+            "john@gmail.com"
+        ],
+        "title": "New Lesson Published",
+        "message": "A new lesson 'Lesson 1: Greeting People & Self-Introductions' has been added to module 'Module 1: Introduction & Everyday Conversations' in the course 'Spoken English'. Check it out!",
+        "notification_type": "LESSON",
+        "read_status": false,
+        "created_at": "2026-06-28T13:06:46.325Z"
+    }
+},
+{
+    "model": "notifications.notification",
+    "pk": 24,
+    "fields": {
+        "recipient": [
+            "john@gmail.com"
+        ],
+        "title": "New Lesson Published",
+        "message": "A new lesson 'Lesson 2: Daily English Conversation Practice' has been added to module 'Module 1: Introduction & Everyday Conversations' in the course 'Spoken English'. Check it out!",
+        "notification_type": "LESSON",
+        "read_status": false,
+        "created_at": "2026-06-28T13:07:46.672Z"
+    }
+},
+{
+    "model": "notifications.notification",
+    "pk": 25,
+    "fields": {
+        "recipient": [
+            "john@gmail.com"
+        ],
+        "title": "New Lesson Published",
+        "message": "A new lesson 'Lesson 3: Active Tenses & Speaking Patterns' has been added to module 'Module 2: Essential Grammar & Active Speaking' in the course 'Spoken English'. Check it out!",
+        "notification_type": "LESSON",
+        "read_status": false,
+        "created_at": "2026-06-28T13:09:03.112Z"
+    }
+},
+{
+    "model": "notifications.notification",
+    "pk": 26,
+    "fields": {
+        "recipient": [
+            "john@gmail.com"
+        ],
+        "title": "New Lesson Published",
+        "message": "A new lesson 'Lesson 4: Common Speaking Mistakes & Pronunciation' has been added to module 'Module 2: Essential Grammar & Active Speaking' in the course 'Spoken English'. Check it out!",
+        "notification_type": "LESSON",
+        "read_status": false,
+        "created_at": "2026-06-28T13:10:17.398Z"
+    }
+}
+]
