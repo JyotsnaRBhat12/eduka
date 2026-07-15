@@ -130,15 +130,25 @@ class ChatConsumer(AsyncJsonWebsocketConsumer):
                 parent_message=parent
             )
 
-            # If this message is a reply to another question, notify the parent author
-            if parent and parent.sender != self.user:
-                from notifications.models import Notification
-                Notification.objects.create(
-                    recipient=parent.sender,
-                    title="New Q&A Reply Received",
-                    message=f"User {self.user.username} replied to your question in '{course.title}': \"{text[:60]}...\"",
-                    notification_type=Notification.TYPE_QA
-                )
+            # Trigger notifications for Q&A activity
+            if parent:
+                if parent.sender != self.user:
+                    from notifications.models import Notification
+                    Notification.objects.create(
+                        recipient=parent.sender,
+                        title="New Q&A Reply Received",
+                        message=f"User {self.user.username} replied to your question in '{course.title}': \"{text[:60]}...\"",
+                        notification_type=Notification.TYPE_QA
+                    )
+            else:
+                if course.mentor != self.user:
+                    from notifications.models import Notification
+                    Notification.objects.create(
+                        recipient=course.mentor,
+                        title="New Q&A Question Asked",
+                        message=f"Student {self.user.username} asked a new question in '{course.title}': \"{text[:60]}...\"",
+                        notification_type=Notification.TYPE_QA
+                    )
             return {
                 'id': msg.id,
                 'content': msg.content,

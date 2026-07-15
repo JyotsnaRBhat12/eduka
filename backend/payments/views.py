@@ -374,3 +374,24 @@ class ExportPaymentsCSVView(views.APIView):
             writer.writerow([p.id, p.student.email, p.course.title, p.gateway, p.transaction_id, p.amount, p.status, p.created_at.isoformat()])
 
         return response
+
+
+class CheckPaymentStatusView(views.APIView):
+    permission_classes = [permissions.IsAuthenticated]
+
+    def get(self, request):
+        session_id = request.query_params.get('session_id')
+        if not session_id:
+            return Response({"error": "Session ID is required."}, status=status.HTTP_400_BAD_REQUEST)
+
+        try:
+            payment = Payment.objects.get(transaction_id=session_id, student=request.user)
+            return Response({
+                "status": payment.status,
+                "course_id": payment.course.id,
+                "course_title": payment.course.title,
+                "amount": float(payment.amount),
+            }, status=status.HTTP_200_OK)
+        except Payment.DoesNotExist:
+            return Response({"error": "Payment record not found."}, status=status.HTTP_404_NOT_FOUND)
+

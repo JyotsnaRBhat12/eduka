@@ -19,29 +19,52 @@ export const SocketProvider = ({ children }) => {
       return;
     }
 
-    const wsUrl = `ws://localhost:8000/ws/notifications/?token=${tokens.access}`;
-    const ws = new WebSocket(wsUrl);
-    notificationSocketRef.current = ws;
+    let ws;
+    let reconnectTimeout;
+    let isComponentMounted = true;
 
-    ws.onmessage = (event) => {
-      const data = JSON.parse(event.data);
-      if (data.type === 'initial_notifications') {
-        setNotifications(data.notifications);
-      } else if (data.type === 'new_notification') {
-        setNotifications((prev) => [data.notification, ...prev]);
-      } else if (data.type === 'notification_read') {
-        setNotifications((prev) =>
-          prev.map((n) => (n.id === data.notification_id ? { ...n, read_status: true } : n)).filter(n => !n.read_status) // hide or keep? Let's just filter out read ones or keep them. Let's filter out read ones for cleanliness!
-        );
-      }
+    const connect = () => {
+      if (!isComponentMounted) return;
+
+      const wsUrl = `ws://localhost:8000/ws/notifications/?token=${tokens.access}`;
+      ws = new WebSocket(wsUrl);
+      notificationSocketRef.current = ws;
+
+      ws.onmessage = (event) => {
+        const data = JSON.parse(event.data);
+        if (data.type === 'initial_notifications') {
+          setNotifications(data.notifications);
+        } else if (data.type === 'new_notification') {
+          setNotifications((prev) => [data.notification, ...prev]);
+        } else if (data.type === 'notification_read') {
+          setNotifications((prev) =>
+            prev.map((n) => (n.id === data.notification_id ? { ...n, read_status: true } : n)).filter(n => !n.read_status)
+          );
+        }
+      };
+
+      ws.onclose = (event) => {
+        console.log('Notification socket closed. Code:', event.code);
+        if (isComponentMounted && user && tokens?.access) {
+          reconnectTimeout = setTimeout(() => {
+            console.log('Attempting to reconnect notification socket...');
+            connect();
+          }, 5000);
+        }
+      };
+
+      ws.onerror = (err) => {
+        console.error('Notification socket encountered error:', err);
+        ws.close();
+      };
     };
 
-    ws.onclose = () => {
-      console.log('Notification socket closed');
-    };
+    connect();
 
     return () => {
-      ws.close();
+      isComponentMounted = false;
+      if (reconnectTimeout) clearTimeout(reconnectTimeout);
+      if (ws) ws.close();
     };
   }, [user, tokens]);
 

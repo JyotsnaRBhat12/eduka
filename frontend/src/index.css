@@ -882,3 +882,9 @@ td {
   z-index: 1;
   animation: liquid-drift 25s ease-in-out infinite alternate;
 }
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+

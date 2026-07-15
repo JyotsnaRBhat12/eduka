@@ -62,6 +62,42 @@ const getCourseImage = (course) => {
 };
 
 // --- SHARED HEADER & LAYOUT COMPONENT ---
+const getNotificationTypeConfig = (type) => {
+  switch (type) {
+    case 'ENROLLMENT':
+      return {
+        icon: <BookOpen size={14} color="var(--primary)" />,
+        badgeText: 'Enrollment',
+        badgeStyle: { background: 'rgba(29, 78, 216, 0.06)', color: 'var(--primary)', border: '1px solid rgba(29, 78, 216, 0.1)' }
+      };
+    case 'LESSON':
+      return {
+        icon: <Play size={14} color="var(--accent-emerald)" />,
+        badgeText: 'New Lesson',
+        badgeStyle: { background: 'rgba(5, 150, 105, 0.06)', color: 'var(--accent-emerald)', border: '1px solid rgba(5, 150, 105, 0.1)' }
+      };
+    case 'QA':
+      return {
+        icon: <MessageSquare size={14} color="var(--accent-cyan)" />,
+        badgeText: 'Q&A Chat',
+        badgeStyle: { background: 'rgba(2, 132, 199, 0.06)', color: 'var(--accent-cyan)', border: '1px solid rgba(2, 132, 199, 0.1)' }
+      };
+    case 'REFUND':
+      return {
+        icon: <DollarSign size={14} color="var(--accent-rose)" />,
+        badgeText: 'Refund',
+        badgeStyle: { background: 'rgba(220, 38, 38, 0.06)', color: 'var(--accent-rose)', border: '1px solid rgba(220, 38, 38, 0.1)' }
+      };
+    case 'ANNOUNCEMENT':
+    default:
+      return {
+        icon: <Bell size={14} color="var(--accent-amber)" />,
+        badgeText: 'Announcement',
+        badgeStyle: { background: 'rgba(217, 119, 6, 0.06)', color: 'var(--accent-amber)', border: '1px solid rgba(217, 119, 6, 0.1)' }
+      };
+  }
+};
+
 const Layout = ({ children }) => {
   const { user, logout } = useAuth();
   const { notifications, markNotificationRead } = useSocket();
@@ -322,20 +358,45 @@ const Layout = ({ children }) => {
                     </div>
                   ) : (
                     <div style={{ display: 'flex', flexDirection: 'column', gap: '0.75rem' }}>
-                      {notifications.map((n) => (
-                        <div key={n.id} style={{ fontSize: '0.85rem', padding: '0.75rem', background: 'var(--bg-primary)', borderRadius: '10px', border: '1px solid var(--glass-border)', transition: 'var(--transition-smooth)' }}>
-                          <div style={{ display: 'flex', justifyContent: 'space-between', fontWeight: 700, color: 'var(--text-primary)', marginBottom: '0.25rem' }}>
-                            <span>{n.title}</span>
-                            <button
-                              onClick={() => markNotificationRead(n.id)}
-                              style={{ background: 'transparent', border: 'none', color: 'var(--accent-emerald)', cursor: 'pointer', fontSize: '0.75rem', fontWeight: 700 }}
-                            >
-                              Dismiss
-                            </button>
+                      {notifications.map((n) => {
+                        const config = getNotificationTypeConfig(n.notification_type);
+                        return (
+                          <div key={n.id} style={{ 
+                            fontSize: '0.85rem', 
+                            padding: '0.85rem', 
+                            background: 'var(--bg-primary)', 
+                            borderRadius: '12px', 
+                            border: '1px solid var(--glass-border)', 
+                            transition: 'var(--transition-smooth)',
+                            display: 'flex',
+                            flexDirection: 'column',
+                            gap: '0.4rem'
+                          }}>
+                            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                              <div style={{ display: 'flex', alignItems: 'center', gap: '0.4rem' }}>
+                                {config.icon}
+                                <span className="badge" style={{ ...config.badgeStyle, fontSize: '0.65rem', padding: '0.15rem 0.45rem', fontWeight: 600 }}>
+                                  {config.badgeText}
+                                </span>
+                              </div>
+                              <button
+                                onClick={() => markNotificationRead(n.id)}
+                                style={{ background: 'transparent', border: 'none', color: 'var(--text-muted)', cursor: 'pointer', fontSize: '0.75rem', fontWeight: 600 }}
+                                onMouseEnter={(e) => e.currentTarget.style.color = 'var(--accent-rose)'}
+                                onMouseLeave={(e) => e.currentTarget.style.color = 'var(--text-muted)'}
+                              >
+                                Dismiss
+                              </button>
+                            </div>
+                            <h4 style={{ fontSize: '0.85rem', fontWeight: 700, color: 'var(--text-primary)', margin: 0, textAlign: 'left' }}>
+                              {n.title}
+                            </h4>
+                            <p style={{ color: 'var(--text-secondary)', lineHeight: '1.4', fontSize: '0.8rem', margin: 0, textAlign: 'left' }}>
+                              {n.message}
+                            </p>
                           </div>
-                          <p style={{ color: 'var(--text-secondary)', lineHeight: '1.4' }}>{n.message}</p>
-                        </div>
-                      ))}
+                        );
+                      })}
                     </div>
                   )}
                 </div>
@@ -3705,7 +3766,9 @@ const MockStripeCheckout = () => {
       if (res.ok) {
         setStatusMsg(success ? 'Payment Successful! Redirecting...' : 'Payment cancelled.');
         setTimeout(() => {
-          window.location.href = success ? `/course/${courseId}` : '/explore';
+          window.location.href = success 
+            ? `/payment/success?session_id=${transactionId}` 
+            : '/payment/cancel';
         }, 1500);
       } else {
         setStatusMsg('Error processing payment callback.');
@@ -3879,6 +3942,275 @@ const CertificateValidation = () => {
   );
 };
 
+// --- PAYMENT SUCCESS VIEW ---
+const PaymentSuccess = () => {
+  const [searchParams] = useSearchParams();
+  const session_id = searchParams.get('session_id');
+  const { fetchWithAuth } = useAuth();
+  const navigate = useNavigate();
+
+  const [loading, setLoading] = useState(true);
+  const [payment, setPayment] = useState(null);
+  const [error, setError] = useState(null);
+  const [countdown, setCountdown] = useState(5);
+  const [retryCount, setRetryCount] = useState(0);
+
+  useEffect(() => {
+    if (!session_id) {
+      setError('Missing session ID. Cannot verify payment status.');
+      setLoading(false);
+      return;
+    }
+
+    let isMounted = true;
+    let pollInterval = null;
+
+    const verifyPayment = async () => {
+      try {
+        const res = await fetchWithAuth(`http://localhost:8000/api/payments/stripe/status/?session_id=${session_id}`);
+        if (!isMounted) return;
+
+        if (res.ok) {
+          const data = await res.json();
+          if (data.status === 'COMPLETED') {
+            setPayment(data);
+            setLoading(false);
+            if (pollInterval) clearInterval(pollInterval);
+          } else {
+            // Still pending, increment retry count
+            setRetryCount(prev => {
+              if (prev >= 6) { // 6 retries total
+                setError('Payment verification is taking longer than expected. Please check your Dashboard or Enrollments.');
+                setLoading(false);
+                if (pollInterval) clearInterval(pollInterval);
+              }
+              return prev + 1;
+            });
+          }
+        } else {
+          const errData = await res.json().catch(() => ({}));
+          setError(errData.error || 'Failed to verify payment status.');
+          setLoading(false);
+          if (pollInterval) clearInterval(pollInterval);
+        }
+      } catch (e) {
+        if (!isMounted) return;
+        console.error(e);
+        setError('Network error occurred during payment verification.');
+        setLoading(false);
+        if (pollInterval) clearInterval(pollInterval);
+      }
+    };
+
+    // Initial check
+    verifyPayment();
+
+    // Setup polling every 1.5s
+    pollInterval = setInterval(verifyPayment, 1500);
+
+    return () => {
+      isMounted = false;
+      if (pollInterval) clearInterval(pollInterval);
+    };
+  }, [session_id, fetchWithAuth]);
+
+  // Countdown timer for automatic redirect
+  useEffect(() => {
+    if (!loading && payment && countdown > 0) {
+      const timer = setTimeout(() => {
+        setCountdown(prev => prev - 1);
+      }, 1000);
+      return () => clearTimeout(timer);
+    } else if (!loading && payment && countdown === 0) {
+      navigate(`/course/${payment.course_id}`);
+    }
+  }, [loading, payment, countdown, navigate]);
+
+  if (loading) {
+    return (
+      <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', minHeight: '80vh' }}>
+        <div className="glass-panel animate-fade-in" style={{ width: '450px', padding: '3rem', textAlign: 'center', borderRadius: 'var(--radius-lg)' }}>
+          <div className="spinner-glow" style={{ 
+            width: '60px', 
+            height: '60px', 
+            borderRadius: '50%', 
+            border: '4px solid rgba(139, 92, 246, 0.1)', 
+            borderTopColor: 'var(--primary)', 
+            animation: 'spin 1.2s linear infinite', 
+            margin: '0 auto 2rem' 
+          }} />
+          <h2 style={{ fontSize: '1.5rem', marginBottom: '0.75rem', fontFamily: 'var(--font-display)', fontWeight: 800 }}>Verifying Payment</h2>
+          <p style={{ color: 'var(--text-secondary)', fontSize: '0.9rem' }}>We are securing your enrollment with Stripe. Please do not close or refresh this page.</p>
+          {retryCount > 0 && (
+            <p style={{ color: 'var(--text-muted)', fontSize: '0.8rem', marginTop: '1rem' }}>Checking status... (attempt {retryCount}/6)</p>
+          )}
+        </div>
+      </div>
+    );
+  }
+
+  if (error) {
+    return (
+      <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', minHeight: '80vh' }}>
+        <div className="glass-panel animate-fade-in" style={{ width: '450px', padding: '3rem', textAlign: 'center', border: '1px solid rgba(244, 63, 94, 0.2)', borderRadius: 'var(--radius-lg)' }}>
+          <AlertTriangle size={56} color="var(--accent-rose)" style={{ marginBottom: '1.5rem', filter: 'drop-shadow(0 0 8px rgba(244, 63, 94, 0.2))' }} />
+          <h2 style={{ fontSize: '1.5rem', marginBottom: '1rem', fontFamily: 'var(--font-display)', fontWeight: 800, color: 'var(--text-primary)' }}>Verification Status</h2>
+          <p style={{ color: 'var(--text-secondary)', fontSize: '0.95rem', marginBottom: '2rem', lineHeight: '1.5' }}>{error}</p>
+          <div style={{ display: 'flex', gap: '1rem', justifyContent: 'center' }}>
+            <button onClick={() => navigate('/dashboard')} className="btn btn-primary" style={{ flex: 1 }}>
+              Go to Dashboard
+            </button>
+            <button onClick={() => navigate('/explore')} className="btn btn-secondary" style={{ flex: 1 }}>
+              Browse Courses
+            </button>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+  return (
+    <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', minHeight: '80vh' }}>
+      <div className="glass-panel animate-fade-in" style={{ 
+        width: '500px', 
+        padding: '3rem', 
+        textAlign: 'center', 
+        border: '1px solid rgba(16, 185, 129, 0.2)', 
+        background: 'linear-gradient(to bottom, var(--bg-secondary), rgba(16, 185, 129, 0.02))',
+        borderRadius: 'var(--radius-lg)',
+        boxShadow: '0 20px 40px -15px rgba(0,0,0,0.3), 0 0 50px -10px rgba(16, 185, 129, 0.05)'
+      }}>
+        <div style={{ 
+          width: '72px', 
+          height: '72px', 
+          borderRadius: '50%', 
+          background: 'rgba(16, 185, 129, 0.1)', 
+          display: 'flex', 
+          alignItems: 'center', 
+          justifyContent: 'center', 
+          margin: '0 auto 1.5rem',
+          boxShadow: '0 0 20px rgba(16, 185, 129, 0.2)'
+        }}>
+          <CheckCircle size={40} color="var(--accent-emerald)" />
+        </div>
+        
+        <h2 style={{ 
+          fontSize: '1.8rem', 
+          marginBottom: '0.5rem', 
+          fontFamily: 'var(--font-display)', 
+          fontWeight: 800, 
+          background: 'linear-gradient(135deg, #10B981, #059669)',
+          WebkitBackgroundClip: 'text',
+          WebkitTextFillColor: 'transparent'
+        }}>
+          Payment Successful!
+        </h2>
+        <p style={{ color: 'var(--text-secondary)', fontSize: '0.95rem', marginBottom: '2rem' }}>
+          Your payment was processed successfully. You now have full lifetime access.
+        </p>
+
+        {/* Payment details card */}
+        <div style={{ 
+          background: 'var(--bg-tertiary)', 
+          borderRadius: '12px', 
+          padding: '1.25rem', 
+          marginBottom: '2rem', 
+          textAlign: 'left',
+          border: '1px solid var(--glass-border)'
+        }}>
+          <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '0.75rem' }}>
+            <span style={{ color: 'var(--text-muted)', fontSize: '0.85rem' }}>Course</span>
+            <span style={{ color: 'var(--text-primary)', fontWeight: 600, fontSize: '0.85rem', maxWidth: '70%', textAlign: 'right' }}>
+              {payment.course_title}
+            </span>
+          </div>
+          <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '0.75rem' }}>
+            <span style={{ color: 'var(--text-muted)', fontSize: '0.85rem' }}>Amount Paid</span>
+            <span style={{ color: 'var(--text-primary)', fontWeight: 800, fontSize: '0.9rem' }}>
+              Rs {payment.amount}
+            </span>
+          </div>
+          <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+            <span style={{ color: 'var(--text-muted)', fontSize: '0.85rem' }}>Status</span>
+            <span className="badge badge-beginner" style={{ fontWeight: 600, fontSize: '0.75rem', textTransform: 'uppercase' }}>
+              Enrolled
+            </span>
+          </div>
+        </div>
+
+        <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
+          <button onClick={() => navigate(`/course/${payment.course_id}`)} className="btn btn-primary" style={{ width: '100%' }}>
+            Start Learning Now
+          </button>
+          
+          <button onClick={() => navigate('/dashboard')} className="btn btn-secondary" style={{ width: '100%' }}>
+            Go to My Dashboard
+          </button>
+        </div>
+
+        <p style={{ color: 'var(--text-muted)', fontSize: '0.8rem', marginTop: '1.5rem' }}>
+          Redirecting to course player in <span style={{ color: 'var(--primary)', fontWeight: 'bold' }}>{countdown}</span> seconds...
+        </p>
+      </div>
+    </div>
+  );
+};
+
+// --- PAYMENT CANCEL VIEW ---
+const PaymentCancel = () => {
+  const navigate = useNavigate();
+
+  return (
+    <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', minHeight: '80vh' }}>
+      <div className="glass-panel animate-fade-in" style={{ 
+        width: '450px', 
+        padding: '3rem', 
+        textAlign: 'center', 
+        border: '1px solid rgba(244, 63, 94, 0.1)', 
+        borderRadius: 'var(--radius-lg)',
+        boxShadow: '0 20px 40px -15px rgba(0,0,0,0.3)'
+      }}>
+        <div style={{ 
+          width: '72px', 
+          height: '72px', 
+          borderRadius: '50%', 
+          background: 'rgba(244, 63, 94, 0.1)', 
+          display: 'flex', 
+          alignItems: 'center', 
+          justifyContent: 'center', 
+          margin: '0 auto 1.5rem'
+        }}>
+          <AlertTriangle size={40} color="var(--accent-rose)" />
+        </div>
+        
+        <h2 style={{ 
+          fontSize: '1.75rem', 
+          marginBottom: '0.5rem', 
+          fontFamily: 'var(--font-display)', 
+          fontWeight: 800,
+          background: 'linear-gradient(135deg, var(--accent-rose), #BE123C)',
+          WebkitBackgroundClip: 'text',
+          WebkitTextFillColor: 'transparent'
+        }}>
+          Checkout Cancelled
+        </h2>
+        <p style={{ color: 'var(--text-secondary)', fontSize: '0.95rem', marginBottom: '2rem', lineHeight: '1.5' }}>
+          Your payment transaction was cancelled. No charges were made to your account.
+        </p>
+
+        <div style={{ display: 'flex', gap: '1rem', justifyContent: 'center' }}>
+          <button onClick={() => navigate('/explore')} className="btn btn-primary" style={{ flex: 1 }}>
+            Explore Courses
+          </button>
+          <button onClick={() => navigate('/dashboard')} className="btn btn-secondary" style={{ flex: 1 }}>
+            Go to Dashboard
+          </button>
+        </div>
+      </div>
+    </div>
+  );
+};
+
 // --- APP ROUTING BOOTSTRAP ---
 function App() {
   const { user, loading } = useAuth();
@@ -3916,6 +4248,8 @@ function App() {
 
                 {/* Payments */}
                 <Route path="/payment/mock-stripe-checkout" element={<MockStripeCheckout />} />
+                <Route path="/payment/success" element={<PaymentSuccess />} />
+                <Route path="/payment/cancel" element={<PaymentCancel />} />
 
                 {/* Mentor routes */}
                 <Route path="/mentor/dashboard" element={<MentorDashboard />} />

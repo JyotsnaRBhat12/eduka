@@ -2,12 +2,13 @@ from django.urls import path
 from .views import (
     CreateStripeCheckoutSessionView, StripeWebhookView, 
     VerifyPayPalOrderView, RefundPaymentView, AdminPaymentListView,
-    AdminSystemReportView, ExportPaymentsCSVView
+    AdminSystemReportView, ExportPaymentsCSVView, CheckPaymentStatusView
 )
 
 urlpatterns = [
     path('stripe/create-checkout-session/', CreateStripeCheckoutSessionView.as_view(), name='stripe_create_session'),
     path('stripe/webhook/', StripeWebhookView.as_view(), name='stripe_webhook'),
+    path('stripe/status/', CheckPaymentStatusView.as_view(), name='stripe_payment_status'),
     path('paypal/verify-order/', VerifyPayPalOrderView.as_view(), name='paypal_verify_order'),
     
     # Admin tools
