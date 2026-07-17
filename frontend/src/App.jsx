@@ -3356,6 +3356,11 @@ const AdminDashboard = () => {
   const [reviews, setReviews] = useState([]);
   const [report, setReport] = useState({ total_revenue: 0, student_count: 0, mentor_count: 0, course_count: 0, enrollment_count: 0 });
   const [message, setMessage] = useState('');
+  const [currentPage, setCurrentPage] = useState(1);
+
+  const paymentsPerPage = 10;
+  const totalPages = Math.ceil(payments.length / paymentsPerPage);
+  const activePage = Math.max(1, Math.min(currentPage, totalPages || 1));
 
   const loadData = async () => {
     try {
@@ -3709,7 +3714,7 @@ const AdminDashboard = () => {
                 </tr>
               </thead>
               <tbody>
-                {payments.map((p) => (
+                {payments.slice((activePage - 1) * paymentsPerPage, activePage * paymentsPerPage).map((p) => (
                   <tr key={p.id} style={{ borderBottom: '1px solid var(--glass-border)' }}>
                     <td style={{ padding: '1rem 0.75rem', fontWeight: 600, color: 'var(--text-primary)' }}>{p.student_email}</td>
                     <td style={{ padding: '1rem 0.75rem', color: 'var(--text-secondary)' }}>{p.course_title}</td>
@@ -3736,6 +3741,137 @@ const AdminDashboard = () => {
                 ))}
               </tbody>
             </table>
+            
+            {/* Pagination Controls */}
+            {totalPages > 1 && (
+              <div style={{
+                display: 'flex',
+                justifyContent: 'space-between',
+                alignItems: 'center',
+                marginTop: '1.5rem',
+                paddingTop: '1rem',
+                borderTop: '1px solid var(--glass-border)',
+                flexWrap: 'wrap',
+                gap: '1rem'
+              }}>
+                <span style={{ fontSize: '0.85rem', color: 'var(--text-secondary)' }}>
+                  Showing <strong style={{ color: 'var(--text-primary)' }}>{((activePage - 1) * paymentsPerPage) + 1}</strong> to <strong style={{ color: 'var(--text-primary)' }}>{Math.min(activePage * paymentsPerPage, payments.length)}</strong> of <strong style={{ color: 'var(--text-primary)' }}>{payments.length}</strong> transactions
+                </span>
+                
+                <div style={{ display: 'flex', gap: '0.35rem', alignItems: 'center' }}>
+                  <button
+                    disabled={activePage === 1}
+                    onClick={() => setCurrentPage(1)}
+                    className="btn btn-secondary"
+                    style={{
+                      padding: '0.45rem 0.75rem',
+                      fontSize: '0.8rem',
+                      borderRadius: '8px',
+                      opacity: activePage === 1 ? 0.5 : 1,
+                      cursor: activePage === 1 ? 'not-allowed' : 'pointer',
+                      display: 'flex',
+                      alignItems: 'center',
+                      gap: '0.25rem',
+                      boxShadow: 'none'
+                    }}
+                  >
+                    « First
+                  </button>
+                  <button
+                    disabled={activePage === 1}
+                    onClick={() => setCurrentPage(prev => Math.max(prev - 1, 1))}
+                    className="btn btn-secondary"
+                    style={{
+                      padding: '0.45rem 0.75rem',
+                      fontSize: '0.8rem',
+                      borderRadius: '8px',
+                      opacity: activePage === 1 ? 0.5 : 1,
+                      cursor: activePage === 1 ? 'not-allowed' : 'pointer',
+                      display: 'flex',
+                      alignItems: 'center',
+                      gap: '0.25rem',
+                      boxShadow: 'none'
+                    }}
+                  >
+                    <ArrowLeft size={12} /> Prev
+                  </button>
+                  
+                  {/* Dynamic Page Numbers */}
+                  {Array.from({ length: totalPages }, (_, i) => i + 1)
+                    .filter(page => page === 1 || page === totalPages || Math.abs(page - activePage) <= 1)
+                    .map((page, idx, arr) => {
+                      const elements = [];
+                      if (idx > 0 && page - arr[idx - 1] > 1) {
+                        elements.push(
+                          <span key={`ellipsis-${page}`} style={{ color: 'var(--text-muted)', margin: '0 0.25rem', fontSize: '0.85rem' }}>...</span>
+                        );
+                      }
+                      elements.push(
+                        <button
+                          key={page}
+                          onClick={() => setCurrentPage(page)}
+                          className={activePage === page ? "btn btn-primary" : "btn btn-secondary"}
+                          style={{
+                            padding: '0.45rem 0.75rem',
+                            fontSize: '0.8rem',
+                            borderRadius: '8px',
+                            minWidth: '2.25rem',
+                            height: '2.25rem',
+                            boxShadow: activePage === page ? 'none' : undefined,
+                            background: activePage === page ? 'var(--primary)' : 'var(--bg-secondary)',
+                            color: activePage === page ? '#fff' : 'var(--text-primary)',
+                            border: activePage === page ? 'none' : '1px solid var(--glass-border)',
+                            display: 'inline-flex',
+                            alignItems: 'center',
+                            justifyContent: 'center',
+                            fontWeight: 700
+                          }}
+                        >
+                          {page}
+                        </button>
+                      );
+                      return elements;
+                    })}
+
+                  <button
+                    disabled={activePage === totalPages}
+                    onClick={() => setCurrentPage(prev => Math.min(prev + 1, totalPages))}
+                    className="btn btn-secondary"
+                    style={{
+                      padding: '0.45rem 0.75rem',
+                      fontSize: '0.8rem',
+                      borderRadius: '8px',
+                      opacity: activePage === totalPages ? 0.5 : 1,
+                      cursor: activePage === totalPages ? 'not-allowed' : 'pointer',
+                      display: 'flex',
+                      alignItems: 'center',
+                      gap: '0.25rem',
+                      boxShadow: 'none'
+                    }}
+                  >
+                    Next <ArrowRight size={12} />
+                  </button>
+                  <button
+                    disabled={activePage === totalPages}
+                    onClick={() => setCurrentPage(totalPages)}
+                    className="btn btn-secondary"
+                    style={{
+                      padding: '0.45rem 0.75rem',
+                      fontSize: '0.8rem',
+                      borderRadius: '8px',
+                      opacity: activePage === totalPages ? 0.5 : 1,
+                      cursor: activePage === totalPages ? 'not-allowed' : 'pointer',
+                      display: 'flex',
+                      alignItems: 'center',
+                      gap: '0.25rem',
+                      boxShadow: 'none'
+                    }}
+                  >
+                    Last »
+                  </button>
+                </div>
+              </div>
+            )}
           </div>
         )}
       </div>
