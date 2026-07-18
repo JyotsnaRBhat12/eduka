@@ -1,5 +1,6 @@
 import React, { createContext, useContext, useEffect, useState, useRef } from 'react';
 import { useAuth } from './AuthContext';
+import { WS_BASE_URL } from '../../config';
 
 const SocketContext = createContext(null);
 
@@ -26,7 +27,7 @@ export const SocketProvider = ({ children }) => {
     const connect = () => {
       if (!isComponentMounted) return;
 
-      const wsUrl = `ws://localhost:8000/ws/notifications/?token=${tokens.access}`;
+      const wsUrl = `${WS_BASE_URL}/ws/notifications/?token=${tokens.access}`;
       ws = new WebSocket(wsUrl);
       notificationSocketRef.current = ws;
 

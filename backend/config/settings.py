@@ -21,8 +21,20 @@ load_dotenv(BASE_DIR.parent / '.env')
 
 # Quick-start development settings - unsuitable for production
 SECRET_KEY = 'django-insecure-%^b5dvulpba(n$#+7tvn0pzsv8+d+etx@=3pjf^t$p8yrdnw72'
-DEBUG = True
-ALLOWED_HOSTS = ['*']
+DEBUG = os.environ.get('DEBUG', 'False').lower() in ('true', '1')
+
+# Allow your backend URL and localhost for health checks
+ALLOWED_HOSTS = [
+    os.environ.get('RAILWAY_STATIC_URL', '*'),
+    'localhost',
+    '127.0.0.1'
+]
+
+# Specify frontend URLs
+CORS_ALLOW_ALL_ORIGINS = False
+CORS_ALLOWED_ORIGINS = [
+    os.environ.get('FRONTEND_URL', 'http://localhost:5173')
+]
 
 # Application definition
 INSTALLED_APPS = [
@@ -57,6 +69,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'whitenoise.middleware.WhiteNoiseMiddleware',  # Add this line
 ]
 
 ROOT_URLCONF = 'config.urls'

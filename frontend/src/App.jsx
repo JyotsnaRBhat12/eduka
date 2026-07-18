@@ -8,11 +8,12 @@ import {
 } from 'lucide-react';
 import { useAuth } from './context/AuthContext';
 import { useSocket } from './context/SocketContext';
+import { API_BASE_URL } from '../config';
 
 // Helper to resolve high-quality topic-related images
 const getCourseImage = (course) => {
   if (course.thumbnail) {
-    return course.thumbnail.startsWith('http') ? course.thumbnail : `http://localhost:8000${course.thumbnail}`;
+    return course.thumbnail.startsWith('http') ? course.thumbnail : `${API_BASE_URL}${course.thumbnail}`;
   }
 
   const title = (course.title || '').toLowerCase();
@@ -361,12 +362,12 @@ const Layout = ({ children }) => {
                       {notifications.map((n) => {
                         const config = getNotificationTypeConfig(n.notification_type);
                         return (
-                          <div key={n.id} style={{ 
-                            fontSize: '0.85rem', 
-                            padding: '0.85rem', 
-                            background: 'var(--bg-primary)', 
-                            borderRadius: '12px', 
-                            border: '1px solid var(--glass-border)', 
+                          <div key={n.id} style={{
+                            fontSize: '0.85rem',
+                            padding: '0.85rem',
+                            background: 'var(--bg-primary)',
+                            borderRadius: '12px',
+                            border: '1px solid var(--glass-border)',
                             transition: 'var(--transition-smooth)',
                             display: 'flex',
                             flexDirection: 'column',
@@ -537,7 +538,7 @@ const Login = () => {
     setResetError('');
     setLoading(true);
     try {
-      const res = await fetch('http://localhost:8000/api/users/password-reset/request/', {
+      const res = await fetch(`${BACKEND_URL}/api/users/password-reset/request/`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ email: resetEmail.trim() })
@@ -559,7 +560,7 @@ const Login = () => {
     setResetError('');
     setLoading(true);
     try {
-      const res = await fetch('http://localhost:8000/api/users/password-reset/confirm/', {
+      const res = await fetch(`${BACKEND_URL}/api/users/password-reset/confirm/`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
@@ -1179,7 +1180,7 @@ const ExploreCourses = () => {
         if (filters.min_duration) queryParams.push(`min_duration=${filters.min_duration}`);
         if (filters.max_duration) queryParams.push(`max_duration=${filters.max_duration}`);
 
-        const url = `http://localhost:8000/api/courses/?${queryParams.join('&')}`;
+        const url = `${API_BASE_URL}/api/courses/?${queryParams.join('&')}`;
         const res = await fetch(url);
         const data = await res.json();
         setCourses(data);
@@ -1201,7 +1202,7 @@ const ExploreCourses = () => {
     }
     const fetchSuggestions = async () => {
       try {
-        const res = await fetch(`http://localhost:8000/api/courses/autocomplete/?q=${search}`);
+        const res = await fetch(`${API_BASE_URL}/api/courses/autocomplete/?q=${search}`);
         if (res.ok) {
           const data = await res.json();
           setSuggestions(data);
@@ -1468,7 +1469,7 @@ const StudentDashboard = () => {
   useEffect(() => {
     const loadCourses = async () => {
       try {
-        const res = await fetchWithAuth('http://localhost:8000/api/courses/');
+        const res = await fetchWithAuth('${API_BASE_URL}/api/courses/');
         if (res.ok) {
           const list = await res.json();
           setCourses(list);
@@ -1624,7 +1625,7 @@ const StudentCertificates = () => {
   useEffect(() => {
     const loadCertificates = async () => {
       try {
-        const res = await fetchWithAuth('http://localhost:8000/api/courses/');
+        const res = await fetchWithAuth('${API_BASE_URL}/api/courses/');
         if (res.ok) {
           const courses = await res.json();
           const completed = courses.filter(c => c.is_enrolled && parseFloat(c.enrollment_progress || 0) >= 100);
@@ -1694,7 +1695,7 @@ const MyEnrollments = () => {
     const loadEnrollments = async () => {
       try {
         // Enrolled courses list
-        const res = await fetchWithAuth('http://localhost:8000/api/courses/');
+        const res = await fetchWithAuth('/api/courses/');
         if (res.ok) {
           const courses = await res.json();
           // Filter to just show courses we have is_enrolled true
@@ -1810,7 +1811,7 @@ const CoursePlayer = () => {
     e.preventDefault();
     if (!moduleTitle.trim()) return;
     try {
-      const res = await fetchWithAuth('http://localhost:8000/api/modules/', {
+      const res = await fetchWithAuth('${API_BASE_URL}/api/modules/', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ title: moduleTitle, course: course.id, order: course.modules.length + 1 }),
@@ -1891,7 +1892,7 @@ const CoursePlayer = () => {
         formData.append('pdf_file', lessonForm.pdf_file);
       }
 
-      const res = await fetchWithAuth('http://localhost:8000/api/lessons/', {
+      const res = await fetchWithAuth('${API_BASE_URL}/api/lessons/', {
         method: 'POST',
         body: formData,
       });
@@ -1911,7 +1912,7 @@ const CoursePlayer = () => {
   const handleCreateQuiz = async (e) => {
     e.preventDefault();
     try {
-      const res = await fetchWithAuth(`http://localhost:8000/api/lessons/${addingQuizToLessonId}/create_quiz/`, {
+      const res = await fetchWithAuth(`${API_BASE_URL}/api/lessons/${addingQuizToLessonId}/create_quiz/`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ quiz: quizForm }),
@@ -1931,12 +1932,12 @@ const CoursePlayer = () => {
 
   const loadCourseData = async () => {
     try {
-      const res = await fetchWithAuth(`http://localhost:8000/api/courses/${id}/`);
+      const res = await fetchWithAuth(`${API_BASE_URL}/api/courses/${id}/`);
       if (res.ok) {
         const data = await res.json();
         setCourse(data);
         // Load reviews
-        const reviewRes = await fetch(`http://localhost:8000/api/courses/${id}/reviews/`);
+        const reviewRes = await fetch(`${API_BASE_URL}/api/courses/${id}/reviews/`);
         if (reviewRes.ok) {
           const revs = await reviewRes.json();
           setReviews(revs);
@@ -1987,7 +1988,7 @@ const CoursePlayer = () => {
       chatSocketRef.current = connection;
 
       // Load persistent historical messages
-      fetchWithAuth(`http://localhost:8000/api/courses/${id}/qa/`).then(res => {
+      fetchWithAuth(`${API_BASE_URL}/api/courses/${id}/qa/`).then(res => {
         if (res.ok) res.json().then(msgs => setChatMessages(msgs));
       });
 
@@ -2008,7 +2009,7 @@ const CoursePlayer = () => {
     try {
       if (course.price > 0) {
         // Stripe checkout session creation
-        const res = await fetchWithAuth('http://localhost:8000/api/payments/stripe/create-checkout-session/', {
+        const res = await fetchWithAuth('${API_BASE_URL}/api/payments/stripe/create-checkout-session/', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({ course_id: course.id }),
@@ -2021,7 +2022,7 @@ const CoursePlayer = () => {
         }
       } else {
         // Free enrollment
-        const res = await fetchWithAuth(`http://localhost:8000/api/courses/${course.id}/enroll/`, {
+        const res = await fetchWithAuth(`${API_BASE_URL}/api/courses/${course.id}/enroll/`, {
           method: 'POST',
         });
         if (res.ok) {
@@ -2040,7 +2041,7 @@ const CoursePlayer = () => {
 
   const handleLessonToggle = async (lessonId) => {
     try {
-      const res = await fetchWithAuth(`http://localhost:8000/api/lessons/${lessonId}/progress/`, {
+      const res = await fetchWithAuth(`${API_BASE_URL}/api/lessons/${lessonId}/progress/`, {
         method: 'POST',
       });
       if (res.ok) {
@@ -2066,7 +2067,7 @@ const CoursePlayer = () => {
     e.preventDefault();
     setQuizResult(null);
     try {
-      const res = await fetchWithAuth(`http://localhost:8000/api/lessons/${activeLesson.id}/quiz/submit/`, {
+      const res = await fetchWithAuth(`${API_BASE_URL}/api/lessons/${activeLesson.id}/quiz/submit/`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ answers: selectedAnswers }),
@@ -2103,7 +2104,7 @@ const CoursePlayer = () => {
     e.preventDefault();
     setReviewMsg('');
     try {
-      const res = await fetchWithAuth(`http://localhost:8000/api/courses/${course.id}/reviews/`, {
+      const res = await fetchWithAuth(`${API_BASE_URL}/api/courses/${course.id}/reviews/`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(newReview),
@@ -2112,7 +2113,7 @@ const CoursePlayer = () => {
         setReviewMsg('Review posted successfully!');
         setNewReview({ rating: 5, comment: '' });
         // Reload reviews
-        const reviewRes = await fetch(`http://localhost:8000/api/courses/${course.id}/reviews/`);
+        const reviewRes = await fetch(`${API_BASE_URL}/api/courses/${course.id}/reviews/`);
         if (reviewRes.ok) {
           const revs = await reviewRes.json();
           setReviews(revs);
@@ -2129,7 +2130,7 @@ const CoursePlayer = () => {
   const handleReportReview = async (reviewId) => {
     if (!reportReason.trim()) return;
     try {
-      const res = await fetchWithAuth(`http://localhost:8000/api/reviews/${reviewId}/report/`, {
+      const res = await fetchWithAuth(`${API_BASE_URL}/api/reviews/${reviewId}/report/`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ reason: reportReason }),
@@ -2139,7 +2140,7 @@ const CoursePlayer = () => {
         setReportingReviewId(null);
         setReportReason('');
         // Reload reviews list
-        const reviewRes = await fetch(`http://localhost:8000/api/courses/${course.id}/reviews/`);
+        const reviewRes = await fetch(`${API_BASE_URL}/api/courses/${course.id}/reviews/`);
         if (reviewRes.ok) {
           const revs = await reviewRes.json();
           setReviews(revs);
@@ -2155,7 +2156,7 @@ const CoursePlayer = () => {
 
   const downloadCertificate = async () => {
     try {
-      const res = await fetchWithAuth(`http://localhost:8000/api/courses/${course.id}/certificate/`);
+      const res = await fetchWithAuth(`${API_BASE_URL}/api/courses/${course.id}/certificate/`);
       if (res.ok) {
         const cert = await res.json();
         // Redirect to printable window certificate
@@ -2887,7 +2888,7 @@ const MentorCourses = () => {
   useEffect(() => {
     const loadCourses = async () => {
       try {
-        const res = await fetchWithAuth('http://localhost:8000/api/courses/');
+        const res = await fetchWithAuth('${API_BASE_URL}/api/courses/');
         if (res.ok) {
           const list = await res.json();
           setCourses(list.filter(c => c.mentor && c.mentor.id === user.id));
@@ -2973,13 +2974,13 @@ const MentorAnalytics = () => {
   useEffect(() => {
     const loadAnalytics = async () => {
       try {
-        const res = await fetchWithAuth('http://localhost:8000/api/courses/');
+        const res = await fetchWithAuth('${API_BASE_URL}/api/courses/');
         if (res.ok) {
           const list = await res.json();
           setCourses(list.filter(c => c.mentor && c.mentor.id === user.id));
         }
 
-        const analyticsRes = await fetchWithAuth('http://localhost:8000/api/mentor/analytics/');
+        const analyticsRes = await fetchWithAuth('${API_BASE_URL}/api/mentor/analytics/');
         if (analyticsRes.ok) {
           const analyticsData = await analyticsRes.json();
           setAnalytics(analyticsData);
@@ -3071,7 +3072,7 @@ const MentorDashboard = () => {
   useEffect(() => {
     const loadMentorData = async () => {
       try {
-        const res = await fetchWithAuth('http://localhost:8000/api/courses/');
+        const res = await fetchWithAuth('${API_BASE_URL}/api/courses/');
         if (res.ok) {
           const coursesList = await res.json();
           // Filter to only courses created by this mentor
@@ -3079,7 +3080,7 @@ const MentorDashboard = () => {
         }
 
         // Fetch real database analytics
-        const analyticsRes = await fetchWithAuth('http://localhost:8000/api/mentor/analytics/');
+        const analyticsRes = await fetchWithAuth('${API_BASE_URL}/api/mentor/analytics/');
         if (analyticsRes.ok) {
           const analyticsData = await analyticsRes.json();
           setAnalytics({
@@ -3251,7 +3252,7 @@ const CourseBuilder = () => {
     e.preventDefault();
     setMessage('');
     try {
-      const res = await fetchWithAuth('http://localhost:8000/api/courses/', {
+      const res = await fetchWithAuth('${API_BASE_URL}/api/courses/', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
@@ -3365,27 +3366,27 @@ const AdminDashboard = () => {
   const loadData = async () => {
     try {
       // Load pending mentors
-      const mRes = await fetchWithAuth('http://localhost:8000/api/users/admin/mentors/?is_approved=false');
+      const mRes = await fetchWithAuth('${API_BASE_URL}/api/users/admin/mentors/?is_approved=false');
       if (mRes.ok) setPendingMentors(await mRes.json());
 
       // Load pending courses
-      const cRes = await fetchWithAuth('http://localhost:8000/api/admin/courses/pending/');
+      const cRes = await fetchWithAuth('${API_BASE_URL}/api/admin/courses/pending/');
       if (cRes.ok) setPendingCourses(await cRes.json());
 
       // Load payments
-      const pRes = await fetchWithAuth('http://localhost:8000/api/payments/admin/all/');
+      const pRes = await fetchWithAuth('${API_BASE_URL}/api/payments/admin/all/');
       if (pRes.ok) setPayments(await pRes.json());
 
       // Load all users
-      const uRes = await fetchWithAuth('http://localhost:8000/api/users/admin/users/');
+      const uRes = await fetchWithAuth('${API_BASE_URL}/api/users/admin/users/');
       if (uRes.ok) setUsers(await uRes.json());
 
       // Load all reviews
-      const rRes = await fetchWithAuth('http://localhost:8000/api/admin/reviews/');
+      const rRes = await fetchWithAuth('${API_BASE_URL}/api/admin/reviews/');
       if (rRes.ok) setReviews(await rRes.json());
 
       // Load system report summary
-      const repRes = await fetchWithAuth('http://localhost:8000/api/payments/admin/reports/system/');
+      const repRes = await fetchWithAuth('${API_BASE_URL}/api/payments/admin/reports/system/');
       if (repRes.ok) setReport(await repRes.json());
     } catch (e) {
       console.error(e);
@@ -3398,7 +3399,7 @@ const AdminDashboard = () => {
 
   const approveMentor = async (profileId) => {
     try {
-      const res = await fetchWithAuth(`http://localhost:8000/api/users/admin/mentors/${profileId}/approve/`, { method: 'POST' });
+      const res = await fetchWithAuth(`${API_BASE_URL}/api/users/admin/mentors/${profileId}/approve/`, { method: 'POST' });
       if (res.ok) {
         setMessage('Mentor approved successfully.');
         loadData();
@@ -3410,7 +3411,7 @@ const AdminDashboard = () => {
 
   const approveCourse = async (courseId) => {
     try {
-      const res = await fetchWithAuth(`http://localhost:8000/api/admin/courses/${courseId}/approve/`, { method: 'POST' });
+      const res = await fetchWithAuth(`${API_BASE_URL}/api/admin/courses/${courseId}/approve/`, { method: 'POST' });
       if (res.ok) {
         setMessage('Course approved successfully.');
         loadData();
@@ -3422,7 +3423,7 @@ const AdminDashboard = () => {
 
   const processRefund = async (paymentId) => {
     try {
-      const res = await fetchWithAuth(`http://localhost:8000/api/payments/admin/refund/${paymentId}/`, { method: 'POST' });
+      const res = await fetchWithAuth(`${API_BASE_URL}/api/payments/admin/refund/${paymentId}/`, { method: 'POST' });
       if (res.ok) {
         setMessage('Refund processed and enrollment access revoked.');
         loadData();
@@ -3434,7 +3435,7 @@ const AdminDashboard = () => {
 
   const simulateDispute = async (transactionId) => {
     try {
-      const res = await fetch(`http://localhost:8000/api/payments/stripe/webhook/`, {
+      const res = await fetch(`${API_BASE_URL}/api/payments/stripe/webhook/`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
@@ -3458,7 +3459,7 @@ const AdminDashboard = () => {
 
   const toggleUserActive = async (userId) => {
     try {
-      const res = await fetchWithAuth(`http://localhost:8000/api/users/admin/users/${userId}/toggle/`, { method: 'POST' });
+      const res = await fetchWithAuth(`${API_BASE_URL}/api/users/admin/users/${userId}/toggle/`, { method: 'POST' });
       if (res.ok) {
         setMessage('User active status updated.');
         loadData();
@@ -3473,7 +3474,7 @@ const AdminDashboard = () => {
 
   const toggleReviewModeration = async (reviewId) => {
     try {
-      const res = await fetchWithAuth(`http://localhost:8000/api/admin/reviews/${reviewId}/toggle/`, { method: 'POST' });
+      const res = await fetchWithAuth(`${API_BASE_URL}/api/admin/reviews/${reviewId}/toggle/`, { method: 'POST' });
       if (res.ok) {
         setMessage('Review visibility moderated.');
         loadData();
@@ -3484,7 +3485,7 @@ const AdminDashboard = () => {
   };
 
   const exportPaymentsReport = () => {
-    fetchWithAuth('http://localhost:8000/api/payments/admin/reports/export/').then(async (res) => {
+    fetchWithAuth('${API_BASE_URL}/api/payments/admin/reports/export/').then(async (res) => {
       if (res.ok) {
         const blob = await res.blob();
         const url = window.URL.createObjectURL(blob);
@@ -3741,7 +3742,7 @@ const AdminDashboard = () => {
                 ))}
               </tbody>
             </table>
-            
+
             {/* Pagination Controls */}
             {totalPages > 1 && (
               <div style={{
@@ -3757,7 +3758,7 @@ const AdminDashboard = () => {
                 <span style={{ fontSize: '0.85rem', color: 'var(--text-secondary)' }}>
                   Showing <strong style={{ color: 'var(--text-primary)' }}>{((activePage - 1) * paymentsPerPage) + 1}</strong> to <strong style={{ color: 'var(--text-primary)' }}>{Math.min(activePage * paymentsPerPage, payments.length)}</strong> of <strong style={{ color: 'var(--text-primary)' }}>{payments.length}</strong> transactions
                 </span>
-                
+
                 <div style={{ display: 'flex', gap: '0.35rem', alignItems: 'center' }}>
                   <button
                     disabled={activePage === 1}
@@ -3795,7 +3796,7 @@ const AdminDashboard = () => {
                   >
                     <ArrowLeft size={12} /> Prev
                   </button>
-                  
+
                   {/* Dynamic Page Numbers */}
                   {Array.from({ length: totalPages }, (_, i) => i + 1)
                     .filter(page => page === 1 || page === totalPages || Math.abs(page - activePage) <= 1)
@@ -3890,7 +3891,7 @@ const MockStripeCheckout = () => {
   const submitMockPayment = async (success) => {
     setProcessing(true);
     try {
-      const res = await fetch('http://localhost:8000/api/payments/stripe/webhook/', {
+      const res = await fetch('${API_BASE_URL}/api/payments/stripe/webhook/', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
@@ -3902,8 +3903,8 @@ const MockStripeCheckout = () => {
       if (res.ok) {
         setStatusMsg(success ? 'Payment Successful! Redirecting...' : 'Payment cancelled.');
         setTimeout(() => {
-          window.location.href = success 
-            ? `/payment/success?session_id=${transactionId}` 
+          window.location.href = success
+            ? `/payment/success?session_id=${transactionId}`
             : '/payment/cancel';
         }, 1500);
       } else {
@@ -3953,7 +3954,7 @@ const CertificateValidation = () => {
   useEffect(() => {
     setLoading(true);
     setError(null);
-    fetch(`http://localhost:8000/api/certificate/verify/${cert_id}/`)
+    fetch(`${API_BASE_URL}/api/certificate/verify/${cert_id}/`)
       .then(async (res) => {
         if (res.ok) {
           const data = await res.json();
@@ -4103,7 +4104,7 @@ const PaymentSuccess = () => {
 
     const verifyPayment = async () => {
       try {
-        const res = await fetchWithAuth(`http://localhost:8000/api/payments/stripe/status/?session_id=${session_id}`);
+        const res = await fetchWithAuth(`${API_BASE_URL}/api/payments/stripe/status/?session_id=${session_id}`);
         if (!isMounted) return;
 
         if (res.ok) {
@@ -4166,14 +4167,14 @@ const PaymentSuccess = () => {
     return (
       <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', minHeight: '80vh' }}>
         <div className="glass-panel animate-fade-in" style={{ width: '450px', padding: '3rem', textAlign: 'center', borderRadius: 'var(--radius-lg)' }}>
-          <div className="spinner-glow" style={{ 
-            width: '60px', 
-            height: '60px', 
-            borderRadius: '50%', 
-            border: '4px solid rgba(139, 92, 246, 0.1)', 
-            borderTopColor: 'var(--primary)', 
-            animation: 'spin 1.2s linear infinite', 
-            margin: '0 auto 2rem' 
+          <div className="spinner-glow" style={{
+            width: '60px',
+            height: '60px',
+            borderRadius: '50%',
+            border: '4px solid rgba(139, 92, 246, 0.1)',
+            borderTopColor: 'var(--primary)',
+            animation: 'spin 1.2s linear infinite',
+            margin: '0 auto 2rem'
           }} />
           <h2 style={{ fontSize: '1.5rem', marginBottom: '0.75rem', fontFamily: 'var(--font-display)', fontWeight: 800 }}>Verifying Payment</h2>
           <p style={{ color: 'var(--text-secondary)', fontSize: '0.9rem' }}>We are securing your enrollment with Stripe. Please do not close or refresh this page.</p>
@@ -4207,34 +4208,34 @@ const PaymentSuccess = () => {
 
   return (
     <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', minHeight: '80vh' }}>
-      <div className="glass-panel animate-fade-in" style={{ 
-        width: '500px', 
-        padding: '3rem', 
-        textAlign: 'center', 
-        border: '1px solid rgba(16, 185, 129, 0.2)', 
+      <div className="glass-panel animate-fade-in" style={{
+        width: '500px',
+        padding: '3rem',
+        textAlign: 'center',
+        border: '1px solid rgba(16, 185, 129, 0.2)',
         background: 'linear-gradient(to bottom, var(--bg-secondary), rgba(16, 185, 129, 0.02))',
         borderRadius: 'var(--radius-lg)',
         boxShadow: '0 20px 40px -15px rgba(0,0,0,0.3), 0 0 50px -10px rgba(16, 185, 129, 0.05)'
       }}>
-        <div style={{ 
-          width: '72px', 
-          height: '72px', 
-          borderRadius: '50%', 
-          background: 'rgba(16, 185, 129, 0.1)', 
-          display: 'flex', 
-          alignItems: 'center', 
-          justifyContent: 'center', 
+        <div style={{
+          width: '72px',
+          height: '72px',
+          borderRadius: '50%',
+          background: 'rgba(16, 185, 129, 0.1)',
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
           margin: '0 auto 1.5rem',
           boxShadow: '0 0 20px rgba(16, 185, 129, 0.2)'
         }}>
           <CheckCircle size={40} color="var(--accent-emerald)" />
         </div>
-        
-        <h2 style={{ 
-          fontSize: '1.8rem', 
-          marginBottom: '0.5rem', 
-          fontFamily: 'var(--font-display)', 
-          fontWeight: 800, 
+
+        <h2 style={{
+          fontSize: '1.8rem',
+          marginBottom: '0.5rem',
+          fontFamily: 'var(--font-display)',
+          fontWeight: 800,
           background: 'linear-gradient(135deg, #10B981, #059669)',
           WebkitBackgroundClip: 'text',
           WebkitTextFillColor: 'transparent'
@@ -4246,11 +4247,11 @@ const PaymentSuccess = () => {
         </p>
 
         {/* Payment details card */}
-        <div style={{ 
-          background: 'var(--bg-tertiary)', 
-          borderRadius: '12px', 
-          padding: '1.25rem', 
-          marginBottom: '2rem', 
+        <div style={{
+          background: 'var(--bg-tertiary)',
+          borderRadius: '12px',
+          padding: '1.25rem',
+          marginBottom: '2rem',
           textAlign: 'left',
           border: '1px solid var(--glass-border)'
         }}>
@@ -4278,7 +4279,7 @@ const PaymentSuccess = () => {
           <button onClick={() => navigate(`/course/${payment.course_id}`)} className="btn btn-primary" style={{ width: '100%' }}>
             Start Learning Now
           </button>
-          
+
           <button onClick={() => navigate('/dashboard')} className="btn btn-secondary" style={{ width: '100%' }}>
             Go to My Dashboard
           </button>
@@ -4298,31 +4299,31 @@ const PaymentCancel = () => {
 
   return (
     <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', minHeight: '80vh' }}>
-      <div className="glass-panel animate-fade-in" style={{ 
-        width: '450px', 
-        padding: '3rem', 
-        textAlign: 'center', 
-        border: '1px solid rgba(244, 63, 94, 0.1)', 
+      <div className="glass-panel animate-fade-in" style={{
+        width: '450px',
+        padding: '3rem',
+        textAlign: 'center',
+        border: '1px solid rgba(244, 63, 94, 0.1)',
         borderRadius: 'var(--radius-lg)',
         boxShadow: '0 20px 40px -15px rgba(0,0,0,0.3)'
       }}>
-        <div style={{ 
-          width: '72px', 
-          height: '72px', 
-          borderRadius: '50%', 
-          background: 'rgba(244, 63, 94, 0.1)', 
-          display: 'flex', 
-          alignItems: 'center', 
-          justifyContent: 'center', 
+        <div style={{
+          width: '72px',
+          height: '72px',
+          borderRadius: '50%',
+          background: 'rgba(244, 63, 94, 0.1)',
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
           margin: '0 auto 1.5rem'
         }}>
           <AlertTriangle size={40} color="var(--accent-rose)" />
         </div>
-        
-        <h2 style={{ 
-          fontSize: '1.75rem', 
-          marginBottom: '0.5rem', 
-          fontFamily: 'var(--font-display)', 
+
+        <h2 style={{
+          fontSize: '1.75rem',
+          marginBottom: '0.5rem',
+          fontFamily: 'var(--font-display)',
           fontWeight: 800,
           background: 'linear-gradient(135deg, var(--accent-rose), #BE123C)',
           WebkitBackgroundClip: 'text',
