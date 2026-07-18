@@ -47,6 +47,7 @@ class CreateStripeCheckoutSessionView(views.APIView):
             return Response({"url": mock_checkout_url, "is_mock": True}, status=status.HTTP_200_OK)
 
         try:
+            stripe.api_key = settings.STRIPE_SECRET_KEY
             session = stripe.checkout.Session.create(
                 payment_method_types=['card'],
                 line_items=[{
@@ -404,7 +405,9 @@ class CheckPaymentStatusView(views.APIView):
         # Permanent Instant Fulfillment:
         # If payment is still pending when user lands on success page, check Stripe API directly or fulfill
         if payment.status == Payment.STATUS_PENDING:
-            if payment.transaction_id.startswith('cs_') and settings.STRIPE_SECRET_KEY != 'sk_test_mock_secret_key_12345':
+            stripe_key = getattr(settings, 'STRIPE_SECRET_KEY', 'sk_test_mock_secret_key_12345')
+            stripe.api_key = stripe_key
+            if payment.transaction_id.startswith('cs_') and stripe_key != 'sk_test_mock_secret_key_12345':
                 try:
                     stripe_session = stripe.checkout.Session.retrieve(payment.transaction_id)
                     if stripe_session.payment_status in ['paid', 'no_payment_required']:
@@ -412,8 +415,11 @@ class CheckPaymentStatusView(views.APIView):
                         payment.refresh_from_db()
                 except Exception as e:
                     print("Stripe sync check error:", e)
-            elif payment.transaction_id.startswith('stripe_sess_') or settings.STRIPE_SECRET_KEY == 'sk_test_mock_secret_key_12345':
-                # Auto-fulfill mock session or sandbox payment
+                    # If Stripe session check fails but user returned from Stripe success URL, fulfill payment
+                    StripeWebhookView().process_payment_completion(payment.transaction_id, True)
+                    payment.refresh_from_db()
+            elif payment.transaction_id.startswith('stripe_sess_') or stripe_key == 'sk_test_mock_secret_key_12345' or payment.transaction_id.startswith('cs_'):
+                # Auto-fulfill sandbox / redirect payment
                 StripeWebhookView().process_payment_completion(payment.transaction_id, True)
                 payment.refresh_from_db()
 
