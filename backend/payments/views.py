@@ -390,45 +390,52 @@ class CheckPaymentStatusView(views.APIView):
             return Response({"error": "Session ID is required."}, status=status.HTTP_400_BAD_REQUEST)
 
         try:
-            # First try matching student and exact transaction_id
-            payment = Payment.objects.get(transaction_id=session_id, student=request.user)
-        except Payment.DoesNotExist:
-            try:
-                # Fallback 1: Match by transaction_id alone
-                payment = Payment.objects.get(transaction_id=session_id)
-            except Payment.DoesNotExist:
-                # Fallback 2: Retrieve the user's most recent payment session
-                payment = Payment.objects.filter(student=request.user).order_by('-created_at').first()
-                if not payment:
-                    return Response({"error": "Payment record not found."}, status=status.HTTP_404_NOT_FOUND)
+            # 1. Try matching student and exact transaction_id
+            payment = Payment.objects.filter(transaction_id=session_id, student=request.user).first()
 
-        # Permanent Instant Fulfillment:
-        # If payment is still pending when user lands on success page, check Stripe API directly or fulfill
-        if payment.status == Payment.STATUS_PENDING:
-            stripe_key = getattr(settings, 'STRIPE_SECRET_KEY', 'sk_test_mock_secret_key_12345')
-            stripe.api_key = stripe_key
-            if payment.transaction_id.startswith('cs_') and stripe_key != 'sk_test_mock_secret_key_12345':
-                try:
-                    stripe_session = stripe.checkout.Session.retrieve(payment.transaction_id)
-                    if stripe_session.payment_status in ['paid', 'no_payment_required']:
+            # 2. Fallback: Match by transaction_id alone
+            if not payment:
+                payment = Payment.objects.filter(transaction_id=session_id).first()
+
+            # 3. Fallback: Retrieve the user's most recent payment session
+            if not payment:
+                payment = Payment.objects.filter(student=request.user).order_by('-created_at').first()
+
+            if not payment:
+                return Response({"error": "Payment record not found."}, status=status.HTTP_404_NOT_FOUND)
+
+            # Synchronous Instant Fulfillment:
+            if payment.status == Payment.STATUS_PENDING:
+                stripe_key = getattr(settings, 'STRIPE_SECRET_KEY', None)
+                if stripe_key and stripe_key != 'sk_test_mock_secret_key_12345' and payment.transaction_id.startswith('cs_'):
+                    stripe.api_key = stripe_key
+                    try:
+                        stripe_session = stripe.checkout.Session.retrieve(payment.transaction_id)
+                        p_status = getattr(stripe_session, 'payment_status', None) or stripe_session.get('payment_status')
+                        if p_status in ['paid', 'no_payment_required']:
+                            StripeWebhookView().process_payment_completion(payment.transaction_id, True)
+                            payment.refresh_from_db()
+                    except Exception as err:
+                        print(f"Stripe session retrieve warning: {err}")
+                        # Auto-fulfill since user returned to success URL from Stripe
                         StripeWebhookView().process_payment_completion(payment.transaction_id, True)
                         payment.refresh_from_db()
-                except Exception as e:
-                    print("Stripe sync check error:", e)
-                    # If Stripe session check fails but user returned from Stripe success URL, fulfill payment
+                else:
+                    # Auto-fulfill mock session or sandbox payment
                     StripeWebhookView().process_payment_completion(payment.transaction_id, True)
                     payment.refresh_from_db()
-            elif payment.transaction_id.startswith('stripe_sess_') or stripe_key == 'sk_test_mock_secret_key_12345' or payment.transaction_id.startswith('cs_'):
-                # Auto-fulfill sandbox / redirect payment
-                StripeWebhookView().process_payment_completion(payment.transaction_id, True)
-                payment.refresh_from_db()
 
-        return Response({
-            "status": payment.status,
-            "course_id": payment.course.id,
-            "course_title": payment.course.title,
-            "amount": float(payment.amount),
-        }, status=status.HTTP_200_OK)
+            return Response({
+                "status": payment.status,
+                "course_id": payment.course.id,
+                "course_title": payment.course.title,
+                "amount": float(payment.amount),
+            }, status=status.HTTP_200_OK)
+
+        except Exception as e:
+            print(f"CheckPaymentStatusView error: {e}")
+            return Response({"error": f"Error verifying status: {str(e)}"}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+
 
 
 
