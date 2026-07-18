@@ -24,17 +24,14 @@ SECRET_KEY = 'django-insecure-%^b5dvulpba(n$#+7tvn0pzsv8+d+etx@=3pjf^t$p8yrdnw72
 DEBUG = os.environ.get('DEBUG', 'False').lower() in ('true', '1')
 
 # Allow your backend URL and localhost for health checks
-ALLOWED_HOSTS = [
-    os.environ.get('RAILWAY_STATIC_URL', '*'),
-    'localhost',
-    '127.0.0.1'
-]
+ALLOWED_HOSTS = ['*']
 
-# Specify frontend URLs
-CORS_ALLOW_ALL_ORIGINS = False
-CORS_ALLOWED_ORIGINS = [
-    os.environ.get('FRONTEND_URL', 'http://localhost:5173')
-]
+# Specify frontend URLs & CSRF Trusted Origins
+CORS_ALLOW_CREDENTIALS = True
+FRONTEND_URL_ENV = os.environ.get('FRONTEND_URL', 'http://localhost:5173')
+CORS_ALLOWED_ORIGINS = [url.strip().rstrip('/') for url in FRONTEND_URL_ENV.split(',') if url.strip()]
+CSRF_TRUSTED_ORIGINS = [url.strip().rstrip('/') for url in FRONTEND_URL_ENV.split(',') if url.strip()]
+
 
 # Application definition
 INSTALLED_APPS = [
@@ -145,9 +142,6 @@ MEDIA_ROOT = BASE_DIR / 'media'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-# CORS Config
-CORS_ALLOW_ALL_ORIGINS = True  # In production, specify front-end domains
-CORS_ALLOW_CREDENTIALS = True
 
 # REST Framework Config
 REST_FRAMEWORK = {
