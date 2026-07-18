@@ -1,125 +1,157 @@
 # eduka - Full-Stack Online Learning Platform
 
-eduka is a premium, full-stack online learning platform built with a **React (Vite) frontend** and a **Django REST Framework backend**, utilizing **MySQL** as the primary datastore. It is fully optimized for speed, responsive design, and local developer sandbox execution.
+**eduka** is a state-of-the-art, full-stack e-learning platform built with a **React (Vite) frontend** and a **Django REST Framework backend** powered by **MySQL / MariaDB**. Designed for high performance, dynamic responsiveness, glassmorphic UI aesthetics, and enterprise-grade payment fulfillment.
 
 ---
 
-## 🚀 Key Features
+## 🌟 Key Features & Ecosystem
 
-### 👥 Roles & Access Control
-- **Student:** Browse courses, enroll via sandbox checkouts, view lessons (Videos/PDFs/Markdown), track progress, ask/answer Q&A, rate/review modules, and verify certificates.
-- **Mentor:** Create/edit courses, build lesson modules, set pricing, view financial sales metrics, and moderate course Q&A.
-- **Admin:** Approve mentor verification requests, verify/approve draft courses, manage user flags, refund transactions, and export CSV ledger logs.
+### 👥 Multi-Role Authorization & Access Control
+- **Student Role:**
+  - **Course Discovery & Filtering:** Interactive catalog with category filters, level indicators, and relevance search.
+  - **Course Player:** Interactive video streaming, lesson progress tracking, embedded PDF viewing, and end-of-module quizzes.
+  - **Learner Dashboard & My Learning:** Track in-progress courses, completed courses, and earned credentials.
+  - **Payment History Ledger:** Dedicated student transaction history tab displaying course title, payment gateway, transaction ID, date, amount (in Rs), and status badges.
+  - **Verified Certificate Validation:** Public certificate verification engine with unique credential ID validation.
+- **Mentor Role:**
+  - **Course Builder:** Create, edit, and organize courses, modules, video lessons, and quiz questions.
+  - **Analytics Console:** Track total students, course completion rates, total sales, and revenue metrics.
+  - **Q&A Moderation:** Moderate student inquiries and discussions live inside course Q&A panels.
+- **Admin Console:**
+  - **User Administration:** View user directory, toggle active/suspended statuses, and manage role permissions.
+  - **Course Approval Workflow:** Moderate and approve mentor-submitted course drafts.
+  - **Financial Ledger & Refund Management:** Track system revenue, issue student refunds, and simulate payment dispute resolution.
+  - **CSV Export:** One-click automated export of transaction history logs to CSV format.
+  - **System Reports:** Live metrics on overall revenue, registered students, mentors, courses, and enrollments.
 
-### 🛡️ Authentication & Security
-- **JWT Authentication:** Dual-token (`access` + `refresh`) architecture for REST API calls.
-- **WebSocket JWT Auth Middleware:** A custom connection-level `JWTAuthMiddleware` that extracts and decodes the JWT parameter from socket query strings to securely authenticate WebSocket connections.
-- **Password Reset Wizard:** State-driven reset console integrated directly on the Login screen, dispatching secure 6-digit verification keys.
-- **Autofill Protection:** Implements fake field interception to override browser credentials autofill, keeping placeholders pristine.
+---
 
 ### 💳 Payment Integrations (Stripe & PayPal)
-- **Stripe Session Checkout:** Real Stripe session redirection + developer-simulated Stripe checkout view.
-- **Stripe Webhooks:** Dynamic event listeners (`checkout.session.completed`, dispute notifications) with automated database rollback handlers to revoke course access upon disputes.
-- **PayPal Verification:** Sandbox capture hooks verifying order IDs before enrolling students.
+- **Stripe Checkout & Instant Fulfillment:**
+  - Seamless redirection to real Stripe Checkout or simulated local developer sandbox.
+  - **Instant Synchronous Verification:** Automatically verifies payment status synchronously upon return to the success page, auto-enrolling students in `< 0.1s` without relying solely on asynchronous webhook arrival.
+  - **Dynamic `FRONTEND_URL` Redirects:** Dynamically constructs return URLs based on environment settings for both local development and live Railway/Vercel deployments.
+  - **Automated Dispute Rollbacks:** Handles dispute webhooks (`charge.dispute.created`) by automatically revoking course access and notifying student & mentor.
+- **PayPal Integration:** Sandbox order verification hooks that validate PayPal order IDs before granting course access.
 
-### 💬 Real-Time Q&A, Moderation & In-App Alerts
-- **WebSocket Rooms:** Course-specific real-time chat rooms powered by Django Channels (`ChatConsumer`).
-- **Role-Based WebSocket Guard:** Prevents unauthorized connection access. Only course mentors, enrolled students, or administrators are permitted to connect.
-- **Threaded Replies & Live Alerts:** Parent-message linking supports threaded Q&A replies. Sending a threaded reply triggers an automated Django signal to create a database `Notification` and dispatch real-time alerts.
-- **Real-Time Moderation Console:** Allows course mentors and administrators to moderate Q&A messages. Moderate actions broadcast instantly to all connected WebSocket clients, masking the message content live.
-- **In-App Notifications:** Real-time bell dropdown alerts powered by `NotificationConsumer` matching mail dispatches.
+---
+
+### 💬 Real-Time Features & Moderation
+- **WebSocket Q&A Rooms:** Course-specific chat rooms powered by Django Channels (`ChatConsumer`) with JWT query parameter authentication.
+- **Role-Based WebSocket Security:** Restricted connection handling allowing only enrolled students, course mentors, or admins to join chat channels.
+- **Live Notifications:** In-app notification bell dispatches real-time alerts upon course purchases, password resets, refunds, and Q&A replies.
+
+---
 
 ### 🔍 Weighted Relevance Search
-- **Synonym Expansion:** Tokenizes search terms, expanding short synonyms (e.g. `js` -> `javascript`, `py` -> `python`).
-- **Relevance Scoring:** SQL-level conditional scoring weighting Title matches (+10), Tag matches (+5), Mentors (+3), and Descriptions (+1).
-- **Autocomplete:** Dropdown suggestion provider for courses, tags, and mentors.
-
-### 📱 Responsive Docked Layout
-- Full-height docked sidebar aligning borders with page headers.
-- Auto-collapsing drawers below `768px` viewports, featuring blurred glass backdrops.
-- Modulo-balanced Unsplash stock image pools loading unique thumbnails per course title.
+- **Synonym Expansion:** Intelligently expands common terms (e.g. `js` → `javascript`, `py` → `python`).
+- **Relevance Scoring:** SQL-level weighted search matching Title (+10), Tag (+5), Mentor (+3), and Description (+1).
+- **Autocomplete Suggestions:** Live instant suggestions for courses, tags, and instructors.
 
 ---
 
-## 🛠️ Technical Stack
-- **Frontend:** React, Vite, Lucide Icons, Vanilla CSS Design System.
-- **Backend:** Django, Django REST Framework, Django Channels (WebSockets).
-- **Database:** MySQL / MariaDB (configured dynamically for XAMPP versions).
+## 🛠️ Technology Stack
+
+- **Frontend:** React, Vite, React Router DOM, Lucide Icons, Vanilla CSS (Glassmorphism & Modern Design Tokens).
+- **Backend:** Python 3.10+, Django 5.x, Django REST Framework (DRF), SimpleJWT, Django Channels (WebSockets).
+- **Database:** MySQL / MariaDB (XAMPP / Railway MySQL).
+- **Payment Processing:** Stripe API SDK, PayPal REST SDK.
+- **Deployment:** Railway (Backend + MySQL), Vercel / Railway (Frontend).
 
 ---
 
-## ⚙️ Local Setup Guide
+## ⚙️ Development & Local Setup Guide
 
-### 1. Database Configuration
-1. Open **XAMPP Control Panel** and start **Apache** and **MySQL**.
-2. Create a database named `edustack` in `phpMyAdmin`.
-3. Check configuration settings in [.env](file:///d:/Internship/Week%2021/.env) inside the workspace root:
+### 1. Database Setup
+1. Start **Apache** and **MySQL** in **XAMPP Control Panel**.
+2. Open `phpMyAdmin` (`http://localhost/phpmyadmin`) and create a database named `edustack` (or `railway`).
+3. Create or update your root `.env` file:
    ```ini
    DB_NAME="edustack"
    DB_USER="root"
    DB_PASSWORD=""
    DB_HOST="127.0.0.1"
    DB_PORT="3306"
+   SECRET_KEY="your-django-secret-key"
+   STRIPE_SECRET_KEY="sk_test_..."
+   STRIPE_WEBHOOK_SECRET="whsec_..."
+   FRONTEND_URL="http://localhost:5173"
    ```
 
-### 2. Backend Installation & Migrations
-1. Open a terminal in the `backend` folder:
-   ```bash
-   cd backend
-   ```
-2. Activate your virtual environment and install dependencies:
-   ```bash
-   ..\venv\Scripts\activate
-   pip install django djangorestframework rest_framework_simplejwt django-cors-headers django-filter mysqlclient python-dotenv channels channels-redis stripe requests
-   ```
-3. Run database migrations:
-   ```bash
-   python manage.py migrate
-   ```
-4. Load the initial development database snapshot:
-   ```bash
-   python manage.py loaddata datadump.json
-   ```
-5. Start the ASGI developmental server:
-   ```bash
-   python manage.py runserver
-   ```
-
-### 3. Frontend Installation
-1. Open a new terminal in the `frontend` folder:
-   ```bash
-   cd frontend
-   npm install
-   ```
-2. Run the hot-reloading development server:
-   ```bash
-   npm run dev
-   ```
-
-### 4. Local Webhook Forwarding (Stripe CLI)
-To forward Stripe events locally to your webhook receiver:
+### 2. Backend Setup
 ```bash
-stripe listen --forward-to localhost:8000/api/payments/stripe/webhook/
+cd backend
+python -m venv venv
+# Windows:
+..\venv\Scripts\activate
+# Mac/Linux:
+source venv/bin/activate
+
+pip install django djangorestframework rest_framework_simplejwt django-cors-headers django-filter mysqlclient python-dotenv channels channels-redis stripe requests
+
+python manage.py migrate
+python manage.py runserver
+```
+
+### 3. Frontend Setup
+```bash
+cd frontend
+npm install
+npm run dev
 ```
 
 ---
 
-## 📬 Development Emails, Password Reset & SMTP Verification
-Since `EMAIL_BACKEND` is configured to output to the console during development, you can retrieve generated password reset verification codes by reading the terminal logs of your running `python manage.py runserver` terminal. Look for a block similar to:
-```text
-Subject: [eduka] Password Reset Verification Code
-To: user@example.com
+## 🚀 Production Deployment Guide (Railway & Vercel)
 
-Hello,
-Your password reset verification code is: XXXXXX
+### Backend Environment Variables (Railway)
+In Railway -> Backend Service -> **Variables**:
+```env
+DB_NAME=railway
+DB_USER=root
+DB_PASSWORD=your_railway_db_password
+DB_HOST=tokaido.proxy.rlwy.net
+DB_PORT=53344
+SECRET_KEY=your-production-secret-key
+STRIPE_SECRET_KEY=sk_test_... or sk_live_...
+STRIPE_WEBHOOK_SECRET=whsec_...
+FRONTEND_URL=https://eduka-frontend-production.up.railway.app
 ```
-Copy and paste this code to proceed with the password reset wizard.
 
-### 🧪 Verifying Real SMTP Setup
-To verify that real SMTP server settings are correctly configured in production or custom development environments:
-1. Authenticate with an active user account.
-2. Send a `POST` request to:
-   ```http
-   POST /api/users/test-email/
-   ```
-3. The server will dispatch a test email verification directly to your authenticated email address.
+### Frontend Environment Variables (Vercel / Railway)
+In Frontend Environment Variables:
+```env
+VITE_API_URL=https://eduka-production-8b66.up.railway.app
+VITE_WS_URL=wss://eduka-production-8b66.up.railway.app
+```
+
+---
+
+## 📬 API Endpoints Summary
+
+### Authentication & Users
+- `POST /api/users/register/` — Register new user
+- `POST /api/users/login/` — Authenticate user & retrieve JWT access/refresh tokens
+- `GET/PUT /api/users/profile/` — Fetch and update user profile details
+- `POST /api/users/password-reset/request/` — Request 6-digit password reset code
+- `POST /api/users/password-reset/confirm/` — Verify reset code & update password
+
+### Courses & Learning
+- `GET /api/courses/` — List all published courses with enrollment status
+- `GET /api/courses/:id/` — Detailed course view with curriculum and modules
+- `POST /api/courses/:id/enroll/` — Free course enrollment
+- `POST /api/lessons/:id/progress/` — Toggle lesson completion progress
+
+### Payments & Purchases
+- `POST /api/payments/stripe/create-checkout-session/` — Generate Stripe Checkout Session URL
+- `POST /api/payments/stripe/webhook/` — Asynchronous Stripe event listener
+- `GET /api/payments/stripe/status/?session_id=...` — Synchronous status verification & instant fulfillment
+- `GET /api/payments/my-history/` — Student transaction history log
+- `GET /api/payments/admin/all/` — Admin transaction ledger
+- `POST /api/payments/admin/refund/:id/` — Admin refund processor
+
+---
+
+## 🛡️ License
+
+This project is open-source and available under the **MIT License**.
