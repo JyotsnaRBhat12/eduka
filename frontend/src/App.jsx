@@ -1469,7 +1469,7 @@ const StudentDashboard = () => {
   useEffect(() => {
     const loadCourses = async () => {
       try {
-        const res = await fetchWithAuth('${API_BASE_URL}/api/courses/');
+        const res = await fetchWithAuth(`${API_BASE_URL}/api/courses/`);
         if (res.ok) {
           const list = await res.json();
           setCourses(list);
@@ -1625,7 +1625,7 @@ const StudentCertificates = () => {
   useEffect(() => {
     const loadCertificates = async () => {
       try {
-        const res = await fetchWithAuth('${API_BASE_URL}/api/courses/');
+        const res = await fetchWithAuth(`${API_BASE_URL}/api/courses/`);
         if (res.ok) {
           const courses = await res.json();
           const completed = courses.filter(c => c.is_enrolled && parseFloat(c.enrollment_progress || 0) >= 100);
@@ -1811,7 +1811,7 @@ const CoursePlayer = () => {
     e.preventDefault();
     if (!moduleTitle.trim()) return;
     try {
-      const res = await fetchWithAuth('${API_BASE_URL}/api/modules/', {
+      const res = await fetchWithAuth(`${API_BASE_URL}/api/modules/`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ title: moduleTitle, course: course.id, order: course.modules.length + 1 }),
@@ -1892,7 +1892,7 @@ const CoursePlayer = () => {
         formData.append('pdf_file', lessonForm.pdf_file);
       }
 
-      const res = await fetchWithAuth('${API_BASE_URL}/api/lessons/', {
+      const res = await fetchWithAuth(`${API_BASE_URL}/api/lessons/`, {
         method: 'POST',
         body: formData,
       });
@@ -2009,7 +2009,7 @@ const CoursePlayer = () => {
     try {
       if (course.price > 0) {
         // Stripe checkout session creation
-        const res = await fetchWithAuth('${API_BASE_URL}/api/payments/stripe/create-checkout-session/', {
+        const res = await fetchWithAuth(`${API_BASE_URL}/api/payments/stripe/create-checkout-session/`, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({ course_id: course.id }),
@@ -2888,7 +2888,7 @@ const MentorCourses = () => {
   useEffect(() => {
     const loadCourses = async () => {
       try {
-        const res = await fetchWithAuth('${API_BASE_URL}/api/courses/');
+        const res = await fetchWithAuth(`${API_BASE_URL}/api/courses/`);
         if (res.ok) {
           const list = await res.json();
           setCourses(list.filter(c => c.mentor && c.mentor.id === user.id));
@@ -2974,13 +2974,13 @@ const MentorAnalytics = () => {
   useEffect(() => {
     const loadAnalytics = async () => {
       try {
-        const res = await fetchWithAuth('${API_BASE_URL}/api/courses/');
+        const res = await fetchWithAuth(`${API_BASE_URL}/api/courses/`);
         if (res.ok) {
           const list = await res.json();
           setCourses(list.filter(c => c.mentor && c.mentor.id === user.id));
         }
 
-        const analyticsRes = await fetchWithAuth('${API_BASE_URL}/api/mentor/analytics/');
+        const analyticsRes = await fetchWithAuth(`${API_BASE_URL}/api/mentor/analytics/`);
         if (analyticsRes.ok) {
           const analyticsData = await analyticsRes.json();
           setAnalytics(analyticsData);
@@ -3072,7 +3072,7 @@ const MentorDashboard = () => {
   useEffect(() => {
     const loadMentorData = async () => {
       try {
-        const res = await fetchWithAuth('${API_BASE_URL}/api/courses/');
+        const res = await fetchWithAuth(`${API_BASE_URL}/api/courses/`);
         if (res.ok) {
           const coursesList = await res.json();
           // Filter to only courses created by this mentor
@@ -3080,7 +3080,7 @@ const MentorDashboard = () => {
         }
 
         // Fetch real database analytics
-        const analyticsRes = await fetchWithAuth('${API_BASE_URL}/api/mentor/analytics/');
+        const analyticsRes = await fetchWithAuth(`${API_BASE_URL}/api/mentor/analytics/`);
         if (analyticsRes.ok) {
           const analyticsData = await analyticsRes.json();
           setAnalytics({
@@ -3252,7 +3252,7 @@ const CourseBuilder = () => {
     e.preventDefault();
     setMessage('');
     try {
-      const res = await fetchWithAuth('${API_BASE_URL}/api/courses/', {
+      const res = await fetchWithAuth(`${API_BASE_URL}/api/courses/`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
@@ -3366,27 +3366,27 @@ const AdminDashboard = () => {
   const loadData = async () => {
     try {
       // Load pending mentors
-      const mRes = await fetchWithAuth('${API_BASE_URL}/api/users/admin/mentors/?is_approved=false');
+      const mRes = await fetchWithAuth(`${API_BASE_URL}/api/users/admin/mentors/?is_approved=false`);
       if (mRes.ok) setPendingMentors(await mRes.json());
 
       // Load pending courses
-      const cRes = await fetchWithAuth('${API_BASE_URL}/api/admin/courses/pending/');
+      const cRes = await fetchWithAuth(`${API_BASE_URL}/api/admin/courses/pending/`);
       if (cRes.ok) setPendingCourses(await cRes.json());
 
       // Load payments
-      const pRes = await fetchWithAuth('${API_BASE_URL}/api/payments/admin/all/');
+      const pRes = await fetchWithAuth(`${API_BASE_URL}/api/payments/admin/all/`);
       if (pRes.ok) setPayments(await pRes.json());
 
       // Load all users
-      const uRes = await fetchWithAuth('${API_BASE_URL}/api/users/admin/users/');
+      const uRes = await fetchWithAuth(`${API_BASE_URL}/api/users/admin/users/`);
       if (uRes.ok) setUsers(await uRes.json());
 
       // Load all reviews
-      const rRes = await fetchWithAuth('${API_BASE_URL}/api/admin/reviews/');
+      const rRes = await fetchWithAuth(`${API_BASE_URL}/api/admin/reviews/`);
       if (rRes.ok) setReviews(await rRes.json());
 
       // Load system report summary
-      const repRes = await fetchWithAuth('${API_BASE_URL}/api/payments/admin/reports/system/');
+      const repRes = await fetchWithAuth(`${API_BASE_URL}/api/payments/admin/reports/system/`);
       if (repRes.ok) setReport(await repRes.json());
     } catch (e) {
       console.error(e);
@@ -3485,7 +3485,7 @@ const AdminDashboard = () => {
   };
 
   const exportPaymentsReport = () => {
-    fetchWithAuth('${API_BASE_URL}/api/payments/admin/reports/export/').then(async (res) => {
+    fetchWithAuth(`${API_BASE_URL}/api/payments/admin/reports/export/`).then(async (res) => {
       if (res.ok) {
         const blob = await res.blob();
         const url = window.URL.createObjectURL(blob);
@@ -3891,7 +3891,7 @@ const MockStripeCheckout = () => {
   const submitMockPayment = async (success) => {
     setProcessing(true);
     try {
-      const res = await fetch('${API_BASE_URL}/api/payments/stripe/webhook/', {
+      const res = await fetch(`${API_BASE_URL}/api/payments/stripe/webhook/`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({

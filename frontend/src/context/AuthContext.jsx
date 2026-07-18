@@ -40,7 +40,7 @@ export const AuthProvider = ({ children }) => {
   };
 
   const register = async (userData) => {
-    const response = await fetch('${API_BASE_URL}/api/users/register/', {
+    const response = await fetch(`${API_BASE_URL}/api/users/register/`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(userData),
@@ -63,7 +63,7 @@ export const AuthProvider = ({ children }) => {
   };
 
   const updateProfile = async (updatedData) => {
-    const response = await fetchWithAuth('${API_BASE_URL}/api/users/profile/', {
+    const response = await fetchWithAuth(`${API_BASE_URL}/api/users/profile/`, {
       method: 'PUT',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(updatedData),
@@ -84,7 +84,7 @@ export const AuthProvider = ({ children }) => {
     if (!tokens?.refresh) return null;
 
     try {
-      const response = await fetch('${API_BASE_URL}/api/users/token/refresh/', {
+      const response = await fetch(`${API_BASE_URL}/api/users/token/refresh/`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ refresh: tokens.refresh }),
