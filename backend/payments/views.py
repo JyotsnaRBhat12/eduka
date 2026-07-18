@@ -401,12 +401,29 @@ class CheckPaymentStatusView(views.APIView):
                 if not payment:
                     return Response({"error": "Payment record not found."}, status=status.HTTP_404_NOT_FOUND)
 
+        # Permanent Instant Fulfillment:
+        # If payment is still pending when user lands on success page, check Stripe API directly or fulfill
+        if payment.status == Payment.STATUS_PENDING:
+            if payment.transaction_id.startswith('cs_') and settings.STRIPE_SECRET_KEY != 'sk_test_mock_secret_key_12345':
+                try:
+                    stripe_session = stripe.checkout.Session.retrieve(payment.transaction_id)
+                    if stripe_session.payment_status in ['paid', 'no_payment_required']:
+                        StripeWebhookView().process_payment_completion(payment.transaction_id, True)
+                        payment.refresh_from_db()
+                except Exception as e:
+                    print("Stripe sync check error:", e)
+            elif payment.transaction_id.startswith('stripe_sess_') or settings.STRIPE_SECRET_KEY == 'sk_test_mock_secret_key_12345':
+                # Auto-fulfill mock session or sandbox payment
+                StripeWebhookView().process_payment_completion(payment.transaction_id, True)
+                payment.refresh_from_db()
+
         return Response({
             "status": payment.status,
             "course_id": payment.course.id,
             "course_title": payment.course.title,
             "amount": float(payment.amount),
         }, status=status.HTTP_200_OK)
+
 
 
 
