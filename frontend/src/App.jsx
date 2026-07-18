@@ -4,7 +4,7 @@ import {
   BookOpen, Play, CheckCircle, HelpCircle, Star, DollarSign, Award, Bell,
   Trash2, Plus, LogOut, Shield, User, Filter, Search, ShieldCheck, ArrowRight, ArrowLeft,
   TrendingUp, Award as CertIcon, Send, MessageSquare, AlertTriangle, Check, X, Hash,
-  Eye, EyeOff, Menu, Grid, LayoutDashboard, Compass, Globe, Users
+  Eye, EyeOff, Menu, Grid, LayoutDashboard, Compass, Globe, Users, CreditCard
 } from 'lucide-react';
 import { useAuth } from './context/AuthContext';
 import { useSocket } from './context/SocketContext';
@@ -207,6 +207,9 @@ const Layout = ({ children }) => {
                   </NavLink>
                   <NavLink to="/certificates" onClick={handleNavLinkClick} className={({ isActive }) => `btn btn-secondary ${isActive ? 'active-nav' : ''}`} style={{ justifyContent: 'flex-start', border: 'none', background: 'transparent' }}>
                     <Award size={18} /> <span className="nav-text">Certificates</span>
+                  </NavLink>
+                  <NavLink to="/payment-history" onClick={handleNavLinkClick} className={({ isActive }) => `btn btn-secondary ${isActive ? 'active-nav' : ''}`} style={{ justifyContent: 'flex-start', border: 'none', background: 'transparent' }}>
+                    <CreditCard size={18} /> <span className="nav-text">Payment History</span>
                   </NavLink>
                 </>
               )}
@@ -1679,6 +1682,136 @@ const StudentCertificates = () => {
               </div>
             );
           })}
+        </div>
+      )}
+    </div>
+  );
+};
+
+// --- STUDENT PAYMENT HISTORY ---
+const StudentPaymentHistory = () => {
+  const { fetchWithAuth } = useAuth();
+  const [payments, setPayments] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [currentPage, setCurrentPage] = useState(1);
+  const itemsPerPage = 8;
+
+  useEffect(() => {
+    const loadHistory = async () => {
+      try {
+        const res = await fetchWithAuth(`${API_BASE_URL}/api/payments/my-history/`);
+        if (res.ok) {
+          const data = await res.json();
+          setPayments(data);
+        }
+      } catch (err) {
+        console.error(err);
+      } finally {
+        setLoading(false);
+      }
+    };
+    loadHistory();
+  }, [fetchWithAuth]);
+
+  const totalPages = Math.ceil(payments.length / itemsPerPage);
+  const activePage = Math.max(1, Math.min(currentPage, totalPages || 1));
+  const currentPayments = payments.slice((activePage - 1) * itemsPerPage, activePage * itemsPerPage);
+
+  const getStatusBadgeClass = (status) => {
+    switch (status) {
+      case 'COMPLETED': return 'badge-beginner';
+      case 'REFUNDED': return 'badge-advanced';
+      case 'DISPUTED': return 'badge-advanced';
+      default: return 'badge-intermediate';
+    }
+  };
+
+  return (
+    <div className="animate-fade-in">
+      <div style={{ marginBottom: '2.5rem' }}>
+        <h2 className="gradient-title" style={{ fontSize: '2.25rem', marginBottom: '0.5rem', letterSpacing: '-0.02em' }}>
+          Payment History
+        </h2>
+        <p style={{ color: 'var(--text-secondary)' }}>
+          View all your past transactions, payment receipts, and enrollment statuses.
+        </p>
+      </div>
+
+      {loading ? (
+        <div style={{ padding: '3rem', textAlign: 'center', color: 'var(--text-secondary)' }}>
+          Loading your payment history...
+        </div>
+      ) : payments.length === 0 ? (
+        <div className="glass-panel" style={{ padding: '4rem', textAlign: 'center', color: 'var(--text-muted)' }}>
+          <CreditCard size={48} color="var(--primary)" style={{ marginBottom: '1.5rem', opacity: 0.8 }} />
+          <p style={{ fontSize: '1.1rem', fontWeight: 600, color: 'var(--text-primary)', marginBottom: '0.5rem' }}>No payment records found</p>
+          <p style={{ fontSize: '0.9rem', color: 'var(--text-secondary)', marginBottom: '1.5rem' }}>You haven't made any course purchases yet.</p>
+          <Link to="/explore" className="btn btn-primary" style={{ textDecoration: 'none', borderRadius: '10px' }}>
+            Browse Courses
+          </Link>
+        </div>
+      ) : (
+        <div className="glass-panel" style={{ padding: '2rem', borderRadius: 'var(--radius-lg)', background: 'var(--bg-secondary)' }}>
+          <div style={{ overflowX: 'auto' }}>
+            <table style={{ width: '100%', borderCollapse: 'collapse', fontSize: '0.9rem', textAlign: 'left' }}>
+              <thead>
+                <tr style={{ borderBottom: '2px solid var(--bg-tertiary)', color: 'var(--text-secondary)' }}>
+                  <th style={{ padding: '1rem 0.75rem' }}>Course Title</th>
+                  <th style={{ padding: '1rem 0.75rem' }}>Gateway</th>
+                  <th style={{ padding: '1rem 0.75rem' }}>Transaction ID</th>
+                  <th style={{ padding: '1rem 0.75rem' }}>Amount</th>
+                  <th style={{ padding: '1rem 0.75rem' }}>Date</th>
+                  <th style={{ padding: '1rem 0.75rem' }}>Status</th>
+                </tr>
+              </thead>
+              <tbody>
+                {currentPayments.map((p) => (
+                  <tr key={p.id} style={{ borderBottom: '1px solid var(--glass-border)' }}>
+                    <td style={{ padding: '1rem 0.75rem', fontWeight: 700, color: 'var(--text-primary)' }}>
+                      <Link to={`/course/${p.course_id}`} style={{ color: 'var(--text-primary)', textDecoration: 'none' }}>
+                        {p.course_title}
+                      </Link>
+                    </td>
+                    <td style={{ padding: '1rem 0.75rem' }}>
+                      <span className="badge" style={{ background: 'var(--bg-primary)', textTransform: 'uppercase', fontSize: '0.7rem', fontWeight: 700 }}>
+                        {p.gateway}
+                      </span>
+                    </td>
+                    <td style={{ padding: '1rem 0.75rem', color: 'var(--text-muted)', fontFamily: 'var(--font-mono)', fontSize: '0.8rem' }}>
+                      {p.transaction_id.length > 24 ? `${p.transaction_id.slice(0, 24)}...` : p.transaction_id}
+                    </td>
+                    <td style={{ padding: '1rem 0.75rem', fontWeight: 800, color: 'var(--accent-emerald)' }}>
+                      Rs {p.amount}
+                    </td>
+                    <td style={{ padding: '1rem 0.75rem', color: 'var(--text-secondary)', fontSize: '0.85rem' }}>
+                      {new Date(p.created_at).toLocaleDateString(undefined, { year: 'numeric', month: 'short', day: 'numeric' })}
+                    </td>
+                    <td style={{ padding: '1rem 0.75rem' }}>
+                      <span className={`badge ${getStatusBadgeClass(p.status)}`} style={{ fontWeight: 600 }}>
+                        {p.status}
+                      </span>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+
+          {totalPages > 1 && (
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginTop: '1.5rem', paddingTop: '1rem', borderTop: '1px solid var(--glass-border)' }}>
+              <span style={{ fontSize: '0.85rem', color: 'var(--text-secondary)' }}>
+                Showing Page <strong>{activePage}</strong> of <strong>{totalPages}</strong>
+              </span>
+              <div style={{ display: 'flex', gap: '0.5rem' }}>
+                <button disabled={activePage === 1} onClick={() => setCurrentPage(prev => Math.max(prev - 1, 1))} className="btn btn-secondary" style={{ padding: '0.4rem 0.8rem', fontSize: '0.8rem', opacity: activePage === 1 ? 0.5 : 1 }}>
+                  Prev
+                </button>
+                <button disabled={activePage === totalPages} onClick={() => setCurrentPage(prev => Math.min(prev + 1, totalPages))} className="btn btn-secondary" style={{ padding: '0.4rem 0.8rem', fontSize: '0.8rem', opacity: activePage === totalPages ? 0.5 : 1 }}>
+                  Next
+                </button>
+              </div>
+            </div>
+          )}
         </div>
       )}
     </div>
@@ -4382,6 +4515,7 @@ function App() {
                 <Route path="/my-enrollments" element={<MyEnrollments />} />
                 <Route path="/course/:id" element={<CoursePlayer />} />
                 <Route path="/certificates" element={<StudentCertificates />} />
+                <Route path="/payment-history" element={<StudentPaymentHistory />} />
 
                 {/* Payments */}
                 <Route path="/payment/mock-stripe-checkout" element={<MockStripeCheckout />} />

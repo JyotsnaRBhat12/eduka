@@ -437,6 +437,22 @@ class CheckPaymentStatusView(views.APIView):
             return Response({"error": f"Error verifying status: {str(e)}"}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
 
+class StudentPaymentHistoryView(views.APIView):
+    permission_classes = [permissions.IsAuthenticated]
 
-
-
+    def get(self, request):
+        payments = Payment.objects.filter(student=request.user).order_by('-created_at')
+        data = [
+            {
+                "id": p.id,
+                "course_id": p.course.id,
+                "course_title": p.course.title,
+                "gateway": p.gateway,
+                "transaction_id": p.transaction_id,
+                "amount": str(p.amount),
+                "status": p.status,
+                "created_at": p.created_at.isoformat()
+            }
+            for p in payments
+        ]
+        return Response(data, status=status.HTTP_200_OK)
