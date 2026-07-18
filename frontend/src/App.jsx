@@ -1695,7 +1695,7 @@ const MyEnrollments = () => {
     const loadEnrollments = async () => {
       try {
         // Enrolled courses list
-        const res = await fetchWithAuth('/api/courses/');
+        const res = await fetchWithAuth(`${API_BASE_URL}/api/courses/`);
         if (res.ok) {
           const courses = await res.json();
           // Filter to just show courses we have is_enrolled true
