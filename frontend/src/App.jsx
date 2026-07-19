@@ -1937,6 +1937,7 @@ const CoursePlayer = () => {
   const [moduleTitle, setModuleTitle] = useState('');
   const [addingLessonToModuleId, setAddingLessonToModuleId] = useState(null);
   const [lessonForm, setLessonForm] = useState({ title: '', content_type: 'VIDEO', video_url: '', document_content: '', duration_minutes: 10 });
+  const [isUploadingLesson, setIsUploadingLesson] = useState(false);
   const [addingQuizToLessonId, setAddingQuizToLessonId] = useState(null);
   const [quizForm, setQuizForm] = useState({ title: 'Lesson Quiz', passing_score: 70, questions: [{ text: '', answers: [{ text: '', is_correct: true }, { text: '', is_correct: false }] }] });
 
@@ -1956,6 +1957,41 @@ const CoursePlayer = () => {
       }
     } catch (err) {
       console.error(err);
+    }
+  };
+
+  const handleDeleteModule = async (moduleId) => {
+    if (!window.confirm('Are you sure you want to delete this module and all its lessons?')) return;
+    try {
+      const res = await fetchWithAuth(`${API_BASE_URL}/api/modules/${moduleId}/`, {
+        method: 'DELETE',
+      });
+      if (res.ok || res.status === 204) {
+        loadCourseData();
+      } else {
+        alert('Failed to delete module.');
+      }
+    } catch (err) {
+      console.error(err);
+      alert('Error deleting module: ' + err.message);
+    }
+  };
+
+  const handleDeleteLesson = async (lessonId) => {
+    if (!window.confirm('Are you sure you want to delete this lesson?')) return;
+    try {
+      const res = await fetchWithAuth(`${API_BASE_URL}/api/lessons/${lessonId}/`, {
+        method: 'DELETE',
+      });
+      if (res.ok || res.status === 204) {
+        setActiveLesson((prev) => (prev?.id === lessonId ? null : prev));
+        loadCourseData();
+      } else {
+        alert('Failed to delete lesson.');
+      }
+    } catch (err) {
+      console.error(err);
+      alert('Error deleting lesson: ' + err.message);
     }
   };
 
@@ -2005,7 +2041,8 @@ const CoursePlayer = () => {
 
   const handleCreateLesson = async (e) => {
     e.preventDefault();
-    if (!lessonForm.title.trim()) return;
+    if (!lessonForm.title.trim() || isUploadingLesson) return;
+    setIsUploadingLesson(true);
     try {
       const targetModule = course.modules.find(m => m.id === addingLessonToModuleId);
       const order = (targetModule?.lessons?.length || 0) + 1;
@@ -2039,6 +2076,8 @@ const CoursePlayer = () => {
       }
     } catch (err) {
       console.error(err);
+    } finally {
+      setIsUploadingLesson(false);
     }
   };
 
@@ -2555,17 +2594,27 @@ const CoursePlayer = () => {
                       <h4 style={{ fontSize: '1.1rem', color: 'var(--primary)', margin: 0 }}>
                         {mod.title}
                       </h4>
-                      {isMentorOwner && (
-                        <button
-                          onClick={() => {
-                            setAddingLessonToModuleId(addingLessonToModuleId === mod.id ? null : mod.id);
-                            setAddingQuizToLessonId(null);
-                          }}
-                          className="btn btn-secondary"
-                          style={{ display: 'flex', alignItems: 'center', gap: '0.25rem', padding: '0.35rem 0.75rem', fontSize: '0.75rem' }}
-                        >
-                          <Plus size={14} /> Add Lesson
-                        </button>
+                      {(isMentorOwner || isAdmin) && (
+                        <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+                          <button
+                            onClick={() => {
+                              setAddingLessonToModuleId(addingLessonToModuleId === mod.id ? null : mod.id);
+                              setAddingQuizToLessonId(null);
+                            }}
+                            className="btn btn-secondary"
+                            style={{ display: 'flex', alignItems: 'center', gap: '0.25rem', padding: '0.35rem 0.75rem', fontSize: '0.75rem' }}
+                          >
+                            <Plus size={14} /> Add Lesson
+                          </button>
+                          <button
+                            onClick={() => handleDeleteModule(mod.id)}
+                            className="btn btn-secondary animate-hover"
+                            title="Delete Module"
+                            style={{ padding: '0.35rem 0.5rem', color: '#ef4444', borderColor: 'rgba(239, 68, 68, 0.2)' }}
+                          >
+                            <Trash2 size={14} />
+                          </button>
+                        </div>
                       )}
                     </div>
 
@@ -2655,8 +2704,10 @@ const CoursePlayer = () => {
                         )}
 
                         <div style={{ display: 'flex', gap: '1rem', marginTop: '1.25rem' }}>
-                          <button type="submit" className="btn btn-primary" style={{ padding: '0.45rem 1rem', fontSize: '0.85rem' }}>Save Lesson</button>
-                          <button type="button" onClick={() => setAddingLessonToModuleId(null)} className="btn btn-secondary" style={{ padding: '0.45rem 1rem', fontSize: '0.85rem' }}>Cancel</button>
+                          <button type="submit" disabled={isUploadingLesson} className="btn btn-primary" style={{ padding: '0.45rem 1rem', fontSize: '0.85rem', opacity: isUploadingLesson ? 0.7 : 1 }}>
+                            {isUploadingLesson ? 'Uploading...' : 'Save Lesson'}
+                          </button>
+                          <button type="button" onClick={() => setAddingLessonToModuleId(null)} disabled={isUploadingLesson} className="btn btn-secondary" style={{ padding: '0.45rem 1rem', fontSize: '0.85rem' }}>Cancel</button>
                         </div>
                       </form>
                     )}
@@ -2679,34 +2730,44 @@ const CoursePlayer = () => {
                               </div>
                               <div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }} onClick={(e) => e.stopPropagation()}>
                                 <span style={{ fontSize: '0.8rem', color: 'var(--text-secondary)' }}>{les.duration_minutes} min</span>
-                                {isMentorOwner && (
-                                  <button
-                                    onClick={() => {
-                                      setAddingQuizToLessonId(addingQuizToLessonId === les.id ? null : les.id);
-                                      setAddingLessonToModuleId(null);
-                                      // Prepopulate quiz structure if edit
-                                      if (les.quiz) {
-                                        setQuizForm({
-                                          title: les.quiz.title || 'Lesson Quiz',
-                                          passing_score: les.quiz.passing_score || 70,
-                                          questions: les.quiz.questions && les.quiz.questions.length > 0
-                                            ? les.quiz.questions.map(q => ({
-                                              text: q.text || q.question_text || '',
-                                              answers: q.answers && q.answers.length > 0
-                                                ? q.answers.map(ans => ({ text: ans.text, is_correct: ans.is_correct || false }))
-                                                : [{ text: '', is_correct: true }, { text: '', is_correct: false }]
-                                            }))
-                                            : [{ text: '', answers: [{ text: '', is_correct: true }, { text: '', is_correct: false }] }]
-                                        });
-                                      } else {
-                                        setQuizForm({ title: 'Lesson Quiz', passing_score: 70, questions: [{ text: '', answers: [{ text: '', is_correct: true }, { text: '', is_correct: false }] }] });
-                                      }
-                                    }}
-                                    className="btn btn-secondary animate-hover"
-                                    style={{ padding: '0.25rem 0.5rem', fontSize: '0.7rem' }}
-                                  >
-                                    {les.quiz ? 'Edit Quiz' : '+ Add Quiz'}
-                                  </button>
+                                {(isMentorOwner || isAdmin) && (
+                                  <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+                                    <button
+                                      onClick={() => {
+                                        setAddingQuizToLessonId(addingQuizToLessonId === les.id ? null : les.id);
+                                        setAddingLessonToModuleId(null);
+                                        // Prepopulate quiz structure if edit
+                                        if (les.quiz) {
+                                          setQuizForm({
+                                            title: les.quiz.title || 'Lesson Quiz',
+                                            passing_score: les.quiz.passing_score || 70,
+                                            questions: les.quiz.questions && les.quiz.questions.length > 0
+                                              ? les.quiz.questions.map(q => ({
+                                                text: q.text || q.question_text || '',
+                                                answers: q.answers && q.answers.length > 0
+                                                  ? q.answers.map(ans => ({ text: ans.text, is_correct: ans.is_correct || false }))
+                                                  : [{ text: '', is_correct: true }, { text: '', is_correct: false }]
+                                              }))
+                                              : [{ text: '', answers: [{ text: '', is_correct: true }, { text: '', is_correct: false }] }]
+                                          });
+                                        } else {
+                                          setQuizForm({ title: 'Lesson Quiz', passing_score: 70, questions: [{ text: '', answers: [{ text: '', is_correct: true }, { text: '', is_correct: false }] }] });
+                                        }
+                                      }}
+                                      className="btn btn-secondary animate-hover"
+                                      style={{ padding: '0.25rem 0.5rem', fontSize: '0.7rem' }}
+                                    >
+                                      {les.quiz ? 'Edit Quiz' : '+ Add Quiz'}
+                                    </button>
+                                    <button
+                                      onClick={() => handleDeleteLesson(les.id)}
+                                      className="btn btn-secondary animate-hover"
+                                      title="Delete Lesson"
+                                      style={{ padding: '0.25rem 0.4rem', color: '#ef4444', borderColor: 'rgba(239, 68, 68, 0.2)' }}
+                                    >
+                                      <Trash2 size={13} />
+                                    </button>
+                                  </div>
                                 )}
                               </div>
                             </div>
